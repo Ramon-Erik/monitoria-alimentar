@@ -1,0 +1,6 @@
+create  table avaliacao (
+	id int primary key not null AUTO_INCREMENT,
+    nota enum('bom', 'ruim'),
+    dia date,
+    hora time
+)
