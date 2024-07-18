@@ -77,8 +77,8 @@
             <div class="linha label">
                 <label for="radio-bom" class="label-emoji">&#128513;</label>
                 <input type="radio" name="satisfacao" id="radio-bom" value="bom" required>
-                <label for="radio-regular" class="label-emoji">&#128528;</label>
-                <input type="radio" name="satisfacao" id="radio-regular" value="regular" required>
+                <!-- <label for="radio-regular" class="label-emoji">&#128528;</label>
+                <input type="radio" name="satisfacao" id="radio-regular" value="regular" required> -->
                 <label for="radio-ruim" class="label-emoji">&#128577;</label>
                 <input type="radio" name="satisfacao" id="radio-ruim" value="ruim" required>
             </div>
