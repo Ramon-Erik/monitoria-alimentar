@@ -46,6 +46,86 @@ main h1 {
     justify-content: center;
 }
 
+form {
+    margin-top: 20px;
+    position: relative;
+}
+
+form div.opcoes {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center
+}
+
+form .opcoes select.classic {   
+    background-color: white;
+    border: thin solid #903234;
+    border-radius: 4px;
+    display: inline-block;
+    font: inherit;
+    line-height: 1.5em;
+    padding: 0.5em 3.5em 0.5em 1em;
+}
+
+select {
+    background-color: white;
+    border: thin solid black;
+    border-radius: 4px;
+    display: inline-block;
+    font: inherit;
+    line-height: 1.5em;
+    padding: 0.5em 3.5em 0.5em 1em;
+
+    margin: 0;      
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+} 
+
+select.minimal {
+    background-image:
+    linear-gradient(45deg, transparent 50%, gray 50%),
+    linear-gradient(135deg, gray 50%, transparent 50%),
+    linear-gradient(to right, #ccc, #ccc);
+    background-position:
+        calc(100% - 20px) calc(1em + 2px),
+        calc(100% - 15px) calc(1em + 2px),
+        calc(100% - 2.5em) 0.5em;
+    background-size:
+        5px 5px,
+        5px 5px,
+        1px 1.5em;
+    background-repeat: no-repeat;
+}
+
+select.minimal:focus {
+background-image:
+    linear-gradient(45deg, green 50%, transparent 50%),
+    linear-gradient(135deg, transparent 50%, green 50%),
+    linear-gradient(to right, #ccc, #ccc);
+    background-position:
+        calc(100% - 15px) 1em,
+        calc(100% - 20px) 1em,
+        calc(100% - 2.5em) 0.5em;
+    background-size:
+        5px 5px,
+        5px 5px,
+        1px 1.5em;
+    background-repeat: no-repeat;
+    border-color: green;
+    outline: 0;
+}
+
+
+select:-moz-focusring {
+color: transparent;
+text-shadow: 0 0 0 #000;
+}
+
+
 form div.linha {
     margin: 15px 0;
     position: relative;
@@ -55,16 +135,12 @@ form div.linha.label {
     text-align: center;
 }
 
-form {
-    margin-top: 20px;
-    position: relative;
-}
 
-form label.label-emoji {
+form .label-emoji {
     font-size: 3rem;
 }
 
-form label.label-emoji:hover { 
+form .label-emoji:hover { 
     font-size: 4rem;
     cursor: pointer;
     transition: all .3s ease;

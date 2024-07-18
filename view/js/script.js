@@ -1,6 +1,6 @@
 const resetBtn = document.querySelector('input[type="reset"]')
 const radioInputs = document.querySelectorAll('input[type="radio"]');
-const labelBtns = document.querySelectorAll('label')
+const labelBtns = document.querySelectorAll('.label-emoji')
 let valorSelecionado = null;
 
 radioInputs.forEach(input => {
