@@ -38,7 +38,7 @@
                     <label for="refLiquidaId">O que foi servido para comer?</label>
                 </div>
                 <div class="linha">
-                    <input type="text" name="refLiquida" id="refLiquidaId">
+                    <input type="text" name="refSolida" id="refLiquidaId">
                 </div>
             </div>
             <div class="grupo">
@@ -46,12 +46,12 @@
                     <label for="refSolidaId">O que foi servido para beber?</label>
                 </div>
                 <div class="linha">
-                    <input type="text" name="refSolida" id="refSolidaId">
+                    <input type="text" name="refLiquida" id="refSolidaId">
                 </div>
             </div>
             <div class="area-btn">
                 <button type="button" class="btn mandar" id="analisarId">Enviar</button>
-                <input type="submit" class="btn limpar" value="limpar">
+                <input type="reset" class="btn limpar" value="limpar">
             </div>
             <dialog id="confirmarId">
                 <div class="cabecalho">
@@ -65,7 +65,7 @@
                 <div class="btns-dialog">
                     <input type="submit" class="btn mandar" id="enviarId" value="Confirmar">
                     <input type="hidden" name="tipo" value="lm">
-                    <button type="button" id="cancelarId">Cancelar</button>
+                    <button type="button" class="cancelar" id="cancelarId">Cancelar</button>
                 </div>
             </dialog>
             <dialog id="erroId">
@@ -73,7 +73,7 @@
                     <h3>Você não informou a <span id="campo"></span>.</h3>
                 </div>
                 <div class="btns-dialog">
-                    <button type="button" class="btn sair" id="cancelarId">Sair</button>
+                    <button type="button" class="sair" id="cancelarId">Sair</button>
                 </div>
             </dialog>
         </form>

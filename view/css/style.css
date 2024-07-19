@@ -236,12 +236,16 @@ dialog .btns-dialog input[type=submit] {
     padding: 10px;
     border: 1px solid gray;
     border-radius: 10px;
-    color: ;
+    color: white;
+    cursor: pointer;
 }
 
-dialog .btns-dialog button {
-    background: var(--cor-bg-btn-modal);
-    color: white;
+dialog .btns-dialog button.cancelar {
+    color: #000;
+}
+
+dialog .btns-dialog button.sair {
+    background: #903234;
 }
 
 footer {
