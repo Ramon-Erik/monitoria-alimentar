@@ -6,4 +6,9 @@ if (isset($_POST['btn-login'])){
     $av = new User;
     $av->login($senha);
 }
-?>
+
+if (isset($_GET['exit'])) {
+    session_start();
+    session_destroy();
+    header('location: ../view/index.php');
+}
