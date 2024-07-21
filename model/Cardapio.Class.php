@@ -7,7 +7,6 @@ Class Cardapio {
     }
 
     public function cardapio_duplicado($data, $horario) {
-        // echo "data: $data horario: $horario<br>";
         $select = $this->pdo->prepare("SELECT id FROM cardapio WHERE data = :data and tipo_refeicao = :tipo");
         $select->bindValue(":data", $data); 
         $select->bindValue(":tipo", $horario); 
@@ -31,8 +30,8 @@ Class Cardapio {
                 $cardapio->bindValue(":horario", $horario); 
                 $cardapio->bindValue(":ultimo_id", $ultimo_id); 
                 $cardapio->execute();
-            } catch (PDOException $e) {
-                echo $e;
+            } catch (Exception $e) {
+                echo $e->getCode();
             }
         } else {
             echo 'erro';
