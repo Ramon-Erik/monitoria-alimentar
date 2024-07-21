@@ -5,28 +5,26 @@ const modalConf = document.querySelector('#confirmarId');
 const modalErro = document.querySelector('#erroId');
 
 btnAnalisar.addEventListener('click', () => {
-    const campo = document.querySelector('#campo'); 
-    const dia = document.querySelector('#dia'); 
-    const refSol = document.querySelector('#refSol'); 
-    const refLiq = document.querySelector('#refLiq'); 
-    const data = document.querySelector('#diaId');
-    const refSolida = document.querySelector('#refSolidaId');
-    const refLiquida = document.querySelector('#refLiquidaId');
-    console.log(data.value, refLiquida.value, refSolida.value)
-    if (data.value === '') {
-        campo.innerText = 'data';
+    const campoErro = document.querySelector('#campoErro'); 
+    const campoData = document.querySelector('#campoData'); 
+    const campoRefSol = document.querySelector('#campoRefSol'); 
+    const campoRefLiq = document.querySelector('#campoRefLiq'); 
+    const valorData = document.querySelector('#dataId').value;
+    const valorRefSolida = document.querySelector('#refSolidaId').value;
+    const valorRefLiquida = document.querySelector('#refLiquidaId').value;
+    if (valorData === '') {
+        campoErro.innerText = 'data';
         modalErro.showModal();
-    } else if (refSolida.value === '') {
-        campo.innerText = 'comida';
+    } else if (valorRefSolida === '') {
+        campoErro.innerText = 'comida';
         modalErro.showModal();
-    } else if (refLiquida.value === '') {
-        console.log(refSolida.value);
-        campo.innerText = 'bebida';
+    } else if (valorRefLiquida === '') {
+        campoErro.innerText = 'bebida';
         modalErro.showModal();
     } else {
-        dia.innerText = data.value
-        refSol.innerText = refSolida.value
-        refLiq.innerText = refLiquida.value
+        campoData.innerText = valorData;
+        campoRefSol.innerText = valorRefSolida;
+        campoRefLiq.innerText = valorRefLiquida;
         modalConf.showModal();
     } 
 });

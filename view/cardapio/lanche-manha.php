@@ -24,29 +24,29 @@
                 <h1>Informar o cardápio do lanche da manhã</h1>
             </div>
         </div>
-        <form action="../control/cardapio-lm.php" method="post">
+        <form action="../../control/cardapio-lanche.php" method="post" autocomplete="off">
             <div class="grupo">
                 <div class="linha">
-                    <label for="diaId">Cardápio referente ao dia</label>
+                    <label for="dataId">Cardápio referente ao dia</label>
                 </div>
                 <div class="linha">
-                    <input type="date" name="dia" id="diaId">
+                    <input type="date" name="data" id="dataId">
                 </div>
             </div>
             <div class="grupo">
                 <div class="linha">
-                    <label for="refLiquidaId">O que foi servido para comer?</label>
+                    <label for="refSolidaId">O que foi servido para comer?</label>
                 </div>
                 <div class="linha">
-                    <input type="text" name="refSolida" id="refLiquidaId">
+                    <input type="text" name="refSolida" id="refSolidaId">
                 </div>
             </div>
             <div class="grupo">
                 <div class="linha">
-                    <label for="refSolidaId">O que foi servido para beber?</label>
+                    <label for="refLiquidaId">O que foi servido para beber?</label>
                 </div>
                 <div class="linha">
-                    <input type="text" name="refLiquida" id="refSolidaId">
+                    <input type="text" name="refLiquida" id="refLiquidaId">
                 </div>
             </div>
             <div class="area-btn">
@@ -56,21 +56,21 @@
             <dialog id="confirmarId">
                 <div class="cabecalho">
                     <div class="linha-cab">
-                        <h3>Lanche da manhâ do dia <span id="dia"></span></h3>
+                        <h3>Lanche da manhã do dia <span id="campoData"></span></h3>
                     </div>
                 </div>
                 <div class="linha">
-                    <p>Foi servido <span id="refSol"></span> com <span id="refLiq"></span>.</p>
+                    <p>Foi servido <span id="campoRefSol"></span> com <span id="campoRefLiq"></span>.</p>
                 </div>
                 <div class="btns-dialog">
-                    <input type="submit" class="btn mandar" id="enviarId" value="Confirmar">
+                    <input type="submit" class="btn mandar" id="enviarId" value="Confirmar" name="btn_lanche">
                     <input type="hidden" name="tipo" value="lm">
                     <button type="button" class="cancelar" id="cancelarId">Cancelar</button>
                 </div>
             </dialog>
             <dialog id="erroId">
                 <div class="linha">
-                    <h3>Você não informou a <span id="campo"></span>.</h3>
+                    <h3>Você não informou a <span id="campoErro"></span>.</h3>
                 </div>
                 <div class="btns-dialog">
                     <button type="button" class="sair" id="cancelarId">Sair</button>
