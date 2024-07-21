@@ -41,6 +41,14 @@ main h1 {
     margin-bottom: 7px;
 } 
 
+main h2 {
+    margin-bottom: 5px;
+}
+
+.titulo-center {
+    text-align: center;
+}
+
 .charts  {
     display: flex;
     justify-content: center;
@@ -198,6 +206,36 @@ form input[type=text] {
 .input-field:not(:placeholder-shown)+.input-label {
     transform: translateY(-4px);
     opacity: 1;
+}
+
+main .texto-func a {
+    color: black;
+    text-decoration: none;
+}
+
+main div.link {
+    display: flex;
+    gap: 10px;
+}
+main div.link:not(:last-child) {
+    margin-bottom: 10px;
+}
+main div.link div.button {
+    width: 45px;
+}
+main div.link a.icone {
+    display: block;
+    width: 50px;
+    height: 50px;
+}
+
+span.material-icons {
+    font-size: 45px;
+    color: #903234;
+}
+
+main div.link div.texto-func {
+    text-align: justify;
 }
 
 .grafico {
