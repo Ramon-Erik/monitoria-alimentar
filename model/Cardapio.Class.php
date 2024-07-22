@@ -104,4 +104,32 @@ Class Cardapio {
             }
         }
     }
+
+    public function registrar_almoco($data, $tipo_refeicao, $proteina, $carboidrato, $verdura, $legume, $fruta, $suco, $sobremesa) {
+        if (!$this->get_cardapio($data, $tipo_refeicao)) {
+            try {
+                $cardapio_servido = $this->pdo->prepare("INSERT INTO cardapio_servido (proteina, carboidrato, verdura, legume, fruta, suco, sobremesa) VALUES (:proteina, :carboidrato, :verdura, :legume, :fruta, :suco, :sobremesa)");
+                $cardapio_servido->bindValue(":proteina", $proteina); 
+                $cardapio_servido->bindValue(":carboidrato", $carboidrato); 
+                $cardapio_servido->bindValue(":verdura", $verdura); 
+                $cardapio_servido->bindValue(":legume", $legume); 
+                $cardapio_servido->bindValue(":fruta", $fruta); 
+                $cardapio_servido->bindValue(":suco", $suco); 
+                $cardapio_servido->bindValue(":sobremesa", $sobremesa); 
+                $cardapio_servido->execute();
+
+                $ultimo_id = $this->pdo->lastInsertId();
+
+                $cardapio = $this->pdo->prepare("INSERT INTO cardapio VALUES(null, :data, :tipo_refeicao, :ultimo_id)");
+                $cardapio->bindValue(":data", $data); 
+                $cardapio->bindValue(":tipo_refeicao", $tipo_refeicao); 
+                $cardapio->bindValue(":ultimo_id", $ultimo_id); 
+                $cardapio->execute();
+            } catch (Exception $e) {
+                echo $e->getCode();
+            }
+        } else {
+            echo 'erro';
+        }
+    }
 }
