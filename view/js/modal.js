@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+
     const btnAnalisar = document.querySelector('#analisarId');
     const btnAnalisar2 = document.querySelector('#analisarId2');
     const btnCancelar = document.querySelector('#cancelarId');
@@ -84,25 +84,26 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    btnCancelar.addEventListener('click', () => {
+    btnCancelar.addEventListener("click", function () {
         modalConf.close();
     });
-
-    btnSair.addEventListener('click', () => {
+    
+    btnSair.addEventListener("click", function () {
         modalErro.close();
     });
-
+    
     window.addEventListener('click', (event) => {
         if (event.target === modalConf || event.target === modalErro) {
             modalConf.close();
             modalErro.close();
         }
     });
-
-    const form = document.querySelector('form');
-    const submitButton = document.querySelector('#enviarId');
-    form.addEventListener('submit', function(event) {
-        submitButton.disabled = true;
-        submitButton.value = 'Enviando...';
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.querySelector('form');
+        const submitButton = document.querySelector('#enviarId');
+        form.addEventListener('submit', function(event) {
+            submitButton.disabled = true;
+            submitButton.value = 'Enviando...';
+        });
     });
-});
