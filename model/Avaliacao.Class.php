@@ -6,15 +6,16 @@ class Avaliacao {
         // $pdo = new pdo("mysql:host=sql311.infinityfree.com; dbname=if0_34490143_monitoria_alimentar_salaberga", "if0_34490143", "ZelVBWHTerGTZY");
     }
 
-    public function cadastrar_avaliacao($av, $serie, $refeicao) {
+    public function cadastrar_avaliacao($av, $serie, $refeicao, $id_cardapio) {
         session_start();
         if (!isset($_SESSION['ultima_resposta']) || time() >=  $_SESSION['ultima_resposta'][1] or $_SESSION['maquina'] === 's') {
-            $consulta = "INSERT INTO avaliacao VALUES (null, curdate(), :av, :serie, :refeicao, :id_cardapio, curtime())";
+            $consulta = "INSERT INTO votacao VALUES (null, curdate(), :av, :serie, :refeicao, :id_cardapio, curtime())";
 
             $consulta_feita = $this->pdo->prepare($consulta);
             $consulta_feita->bindValue(":av", $av);
             $consulta_feita->bindValue(":serie", $serie);
             $consulta_feita->bindValue(":refeicao", $refeicao);
+            $consulta_feita->bindValue(":id_cardapio", $id_cardapio);
             $consulta_feita->execute();
 
             $_SESSION['ultima_resposta'] = [time(), strtotime('tomorrow')];

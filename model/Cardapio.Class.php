@@ -19,14 +19,21 @@ Class Cardapio {
         }
     }
     
-    public function registrar_lanche_nulo($data, $horario) {
+    public function registrar_cardapio_nulo($data, $horario) {
         try {
-            $select = $this->pdo->prepare("SELECT id FROM cardapio WHERE data = :data and tipo_refeicao = :tipo");
-            $select->bindValue(":data", $data); 
-            $select->bindValue(":tipo", $horario); 
-            $select->execute();
-            $select = $select->fetch(PDO::FETCH_ASSOC);
-            return $select;
+            $cardapio_servido = $this->pdo->prepare("INSERT INTO cardapio_servido (id) VALUES (null)");
+            $cardapio_servido->execute();
+
+            $ultimo_id = $this->pdo->lastInsertId();
+
+            $cardapio = $this->pdo->prepare("INSERT INTO cardapio VALUES(null, :data, :horario, :ultimo_id)");
+            $cardapio->bindValue(":data", $data); 
+            $cardapio->bindValue(":horario", $horario); 
+            $cardapio->bindValue(":ultimo_id", $ultimo_id); 
+            $cardapio->execute();
+            
+            $ultimo_id = $this->pdo->lastInsertId();
+            return $ultimo_id;
         } catch (Exception $e) {
             echo $e->getCode();
         }
