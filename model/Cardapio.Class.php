@@ -6,7 +6,7 @@ Class Cardapio {
         $this->pdo = new PDO("mysql:host=localhost; dbname=monitoria_alimentar_salaberga","root","");
     }
 
-    public function cardapio_duplicado($data, $tipo_refeicao) {
+    public function get_cardapio($data, $tipo_refeicao) {
         $select = $this->pdo->prepare("SELECT id FROM cardapio WHERE data = :data and tipo_refeicao = :tipo");
         $select->bindValue(":data", $data); 
         $select->bindValue(":tipo", $tipo_refeicao); 
@@ -16,7 +16,7 @@ Class Cardapio {
     }
 
     public function registrar_lanche($data, $tipo_refeicao, $ref_solida, $ref_liquida) {
-        if (!$this->cardapio_duplicado($data, $tipo_refeicao)) {
+        if (!$this->get_cardapio($data, $tipo_refeicao)) {
             try {
                 $cardapio_servido = $this->pdo->prepare("INSERT INTO cardapio_servido (ref_solida, ref_liquida) VALUES (:ref_solida, :ref_liquida)");
                 $cardapio_servido->bindValue(":ref_solida", $ref_solida); 
@@ -39,7 +39,7 @@ Class Cardapio {
     }
 
     public function registrar_almoco($data, $tipo_refeicao, $proteina, $carboidrato, $verdura, $legume, $fruta, $suco, $sobremesa) {
-        if (!$this->cardapio_duplicado($data, $tipo_refeicao)) {
+        if (!$this->get_cardapio($data, $tipo_refeicao)) {
             try {
                 $cardapio_servido = $this->pdo->prepare("INSERT INTO cardapio_servido (proteina, carboidrato, verdura, legume, fruta, suco, sobremesa) VALUES (:proteina, :carboidrato, :verdura, :legume, :fruta, :suco, :sobremesa)");
                 $cardapio_servido->bindValue(":proteina", $proteina); 
