@@ -10,7 +10,8 @@ if (isset($_POST['tipo'])) {
     $fruta = urlencode($_POST['fruta']);
     $suco = urlencode($_POST['suco']);
     $sobremesa = urlencode($_POST['sobremesa']);
-    // echo "Foi servido $ref_solida com $ref_liquida no dia $data";
+
+    //echo "Foi servido $proteina, $carboidrato, $verdura, $legume, $fruta, $suco, $sobremesa no dia $data";
     require_once('../model/Cardapio.Class.php');
     $cardapio = new Cardapio;
     $cardapio->registrar_almoco($data, $tipo_refeicao, $proteina, $carboidrato, $verdura, $legume, $fruta, $suco, $sobremesa);
