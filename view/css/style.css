@@ -45,6 +45,7 @@ main h2 {
     margin-bottom: 5px;
 }
 
+
 .titulo-center {
     text-align: center;
 }
@@ -143,8 +144,8 @@ form .label-emoji:hover {
     transition: all .3s ease;
 }
 
-form input[type="radio"] {
-    opacity: 0;
+#radio-bom {
+    display: none;
 }
 
 form .area-btn {
@@ -303,3 +304,50 @@ footer a:before {
     top: 0;
     left: -20px;
 }
+
+.radio-group {
+    font-family: 'Inter', sans-serif;
+  }
+  
+  .radio-group label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    cursor: pointer;
+  }
+  
+  .radio-group input[type="radio"] {
+    display: none; 
+  }
+  
+  .radio-group .custom-radio {
+    width: 20px;
+    height: 20px;
+    border: 2px solid black; 
+    border-radius: 50%; 
+    margin-right: 10px;
+    position: relative;
+  }
+  
+  .radio-group input[type="radio"]:checked + .custom-radio {
+    background-color: rgb(37, 37, 37); 
+    border-color: rgb(37, 37, 37); 
+  }
+  
+  .radio-group .custom-radio::after {
+    content: '';
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: rgb(37, 37, 37);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  
+  .radio-group input[type="radio"]:checked + .custom-radio::after {
+    opacity: 1;
+  }

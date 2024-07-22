@@ -8,12 +8,12 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-<?php
+<?php/*
     session_start(); 
     if (!isset($_SESSION['login'])) {
         echo '<script>alert("Faça login para ter acesso as funções de admin!")</script>';
         header('location: login.php');
-    }
+    }*/
     ?>
     <header></header>
     <main>
@@ -57,7 +57,7 @@
             <div class="link">
                 <div class="button"><a href="relatorio/index.php" class="icone"> <span class="material-icons">note_alt</span></a></div>
                 <div class="texto-func">
-                    <a href="relatorio/index.php"><h4>Gerar rlatório</h4></a>
+                    <a href="relatorio/index.php"><h4>Gerar relatório</h4></a>
                     <p>Peça um relatório dos dados do site.</p>
                 </div>
             </div>
