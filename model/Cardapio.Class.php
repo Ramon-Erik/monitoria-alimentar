@@ -6,17 +6,34 @@ Class Cardapio {
         $this->pdo = new PDO("mysql:host=localhost; dbname=monitoria_alimentar_salaberga","root","");
     }
 
-    public function cardapio_duplicado($data, $horario) {
-        $select = $this->pdo->prepare("SELECT id FROM cardapio WHERE data = :data and tipo_refeicao = :tipo");
-        $select->bindValue(":data", $data); 
-        $select->bindValue(":tipo", $horario); 
-        $select->execute();
-        $select = $select->fetch(PDO::FETCH_ASSOC);
-        return $select;
+    public function get_cardapio($data, $horario) {
+        try {
+            $select = $this->pdo->prepare("SELECT id FROM cardapio WHERE data = :data and tipo_refeicao = :tipo");
+            $select->bindValue(":data", $data); 
+            $select->bindValue(":tipo", $horario); 
+            $select->execute();
+            $select = $select->fetch(PDO::FETCH_ASSOC);
+            return $select;
+        } catch (Exception $e) {
+            echo $e->getCode();
+        }
+    }
+    
+    public function registrar_lanche_nulo($data, $horario) {
+        try {
+            $select = $this->pdo->prepare("SELECT id FROM cardapio WHERE data = :data and tipo_refeicao = :tipo");
+            $select->bindValue(":data", $data); 
+            $select->bindValue(":tipo", $horario); 
+            $select->execute();
+            $select = $select->fetch(PDO::FETCH_ASSOC);
+            return $select;
+        } catch (Exception $e) {
+            echo $e->getCode();
+        }
     }
 
     public function registrar_lanche($data, $horario, $ref_solida, $ref_liquida) {
-        if (!$this->cardapio_duplicado($data, $horario)) {
+        if (!$this->get_cardapio($data, $horario)) {
             try {
                 $cardapio_servido = $this->pdo->prepare("INSERT INTO cardapio_servido (ref_solida, ref_liquida) VALUES (:ref_solida, :ref_liquida)");
                 $cardapio_servido->bindValue(":ref_solida", $ref_solida); 
@@ -34,7 +51,7 @@ Class Cardapio {
                 echo $e->getCode();
             }
         } else {
-            echo 'erro';
+            echo 'x';
         }
     }
 }
