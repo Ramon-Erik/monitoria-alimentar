@@ -30,7 +30,7 @@
                     <label for="dataId">Cardápio referente ao dia</label>
                 </div>
                 <div class="linha">
-                    <input type="date" name="data" class="valor-input" data-campo="dataId">
+                    <input type="date" name="data" id="dataId">
                 </div>
             </div>
             <div class="grupo">
@@ -38,7 +38,7 @@
                     <label for="refSolidaId">O que foi servido para comer?</label>
                 </div>
                 <div class="linha">
-                    <input type="text" name="refSolida" class="valor-input" data-campo="refSolidaId">
+                    <input type="text" name="refSolida" id="refSolidaId">
                 </div>
             </div>
             <div class="grupo">
@@ -46,7 +46,7 @@
                     <label for="refLiquidaId">O que foi servido para beber?</label>
                 </div>
                 <div class="linha">
-                    <input type="text" name="refLiquida" class="valor-input" data-campo="refLiquidaId">
+                    <input type="text" name="refLiquida" id="refLiquidaId">
                 </div>
             </div>
             <div class="area-btn">
@@ -56,11 +56,11 @@
             <dialog id="confirmarId">
                 <div class="cabecalho">
                     <div class="linha-cab">
-                        <h3>Lanche da tarde do dia <span class="campo-exibicao" data-campo="dataId"></span></h3>
+                        <h3>Lanche da tarde do dia <span id="dataId"></span></h3>
                     </div>
                 </div>
                 <div class="linha">
-                    <p>Foi servido <span class="campo-exibicao" data-campo="refSolidaId"></span> com <span class="campo-exibicao" data-campo="refLiquidaId"></span>.</p>
+                    <p>Foi servido <span id="refSolidaId"></span> com <span id="refLiquidaId"></span>.</p>
                 </div>
                 <div class="btns-dialog">
                     <input type="submit" class="btn mandar" id="enviarId" value="Confirmar" name="btn_lanche">

@@ -1,109 +1,110 @@
+const btnAnalisar = document.querySelector('#analisarId');
+const btnAnalisar2 = document.querySelector('#analisarId2');
+const btnCancelar = document.querySelector('#cancelarId');
+const btnSair = document.querySelector('.sair');
+const modalConf = document.querySelector('#confirmarId');
+const modalErro = document.querySelector('#erroId');
 
-    const btnAnalisar = document.querySelector('#analisarId');
-    const btnAnalisar2 = document.querySelector('#analisarId2');
-    const btnCancelar = document.querySelector('#cancelarId');
-    const btnSair = document.querySelector('.sair');
-    const modalConf = document.querySelector('#confirmarId');
-    const modalErro = document.querySelector('#erroId');
-    const campoErro = document.querySelector('#campoErro');
+btnAnalisar.addEventListener('click', () => {
+    const campoErro = document.querySelector('#campoErro'); 
+    const campoData = document.querySelector('#campoData'); 
+    const campoRefSol = document.querySelector('#campoRefSol'); 
+    const campoRefLiq = document.querySelector('#campoRefLiq'); 
+    const valorData = document.querySelector('#dataId');
+    const valorRefSolida = document.querySelector('#refSolidaId');
+    const valorRefLiquida = document.querySelector('#refLiquidaId');
+    if (valorData === '') {
+        campoErro.innerText = 'data';
+        modalErro.showModal();
+    } else if (valorRefSolida === '') {
+        campoErro.innerText = 'comida';
+        modalErro.showModal();
+    } else if (valorRefLiquida === '') {
+        campoErro.innerText = 'bebida';
+        modalErro.showModal();
+    } else {
+        campoData.innerText = valorData;
+        campoRefSol.innerText = valorRefSolida;
+        campoRefLiq.innerText = valorRefLiquida;
+        modalConf.showModal();
+    } 
+});
 
-    function getInputValue(campo) {
-        return document.querySelector(`.valor-input[data-campo="${campo}"]`).value;
-    }
+btnAnalisar2.addEventListener('click', () => {
+    const campoErro = document.querySelector('#campoErro'); 
+    const campoData = document.querySelector('#campoData'); 
+    const campoProteina = document.querySelector('#campoProteina'); 
+    const campoCarboidrato = document.querySelector('#campoCarboidrato'); 
+    const campoVerdura = document.querySelector('#campoVerdura'); 
+    const campoLegume = document.querySelector('#campoLegume'); 
+    const campoFruta = document.querySelector('#campoFruta'); 
+    const campoSuco = document.querySelector('#campoSuco'); 
+    const campoSobremesa = document.querySelector('#campoSobremesa'); 
+    const valorData = document.querySelector('#dataId');
+    const valorProteina = document.querySelector('#proteinaId');
+    const valorCarboidrato = document.querySelector('#carboidratoId');
+    const valorVerdura = document.querySelector('#verduraId');
+    const valorLegume = document.querySelector('#legumeId');
+    const valorFruta = document.querySelector('#frutaId');
+    const valorSuco = document.querySelector('#sucoId');
+    const valorSobremesa = document.querySelector('#sobremesaId');
+    if (valorData === '') {
+        campoErro.innerText = 'data';
+        modalErro.showModal();
+    } else if (valorProteina === '') {
+        campoErro.innerText = 'proteína';
+        modalErro.showModal();
+    } else if (valorCarboidrato === '') {
+        campoErro.innerText = 'carboidrato';
+        modalErro.showModal();
+    } else if (valorVerdura === '') {
+        campoErro.innerText = 'verdura';
+        modalErro.showModal();
+    } else if (valorLegume === '') {
+        campoErro.innerText = 'legume';
+        modalErro.showModal();
+    } else if (valorFruta === '') {
+        campoErro.innerText = 'fruta';
+        modalErro.showModal();
+    } else if (valorSuco === '') {
+        campoErro.innerText = 'suco';
+        modalErro.showModal();
+    } else if (valorSobremesa === '') {
+        campoErro.innerText = 'sobremesa';
+        modalErro.showModal();
+    } else {
+        campoData.innerText = valorData;
+        campoProteina.innerText = valorProteina;
+        campoCarboidrato.innerText = valorCarboidrato;
+        campoVerdura.innerText = valorVerdura;
+        campoLegume.innerText = valorLegume;
+        campoFruta.innerText = valorFruta;
+        campoSuco.innerText = valorSuco;
+        campoSobremesa.innerText = valorSobremesa;
+        modalConf.showModal();
+    } 
+});
 
-    function setCampoExibicao(campo, valor) {
-        document.querySelector(`.campo-exibicao[data-campo="${campo}"]`).innerText = valor;
-    }
+btnCancelar.addEventListener("click", function () {
+    modalConf.close();
+});
 
-    btnAnalisar.addEventListener('click', () => {
-        const valorData = getInputValue('dataId');
-        const valorRefSolida = getInputValue('refSolidaId');
-        const valorRefLiquida = getInputValue('refLiquidaId');
+btnSair.addEventListener("click", function () {
+    modalErro.close();
+});
 
-        if (valorData === '') {
-            campoErro.innerText = 'data';
-            modalErro.showModal();
-        } else if (valorRefSolida === '') {
-            campoErro.innerText = 'comida';
-            modalErro.showModal();
-        } else if (valorRefLiquida === '') {
-            campoErro.innerText = 'bebida';
-            modalErro.showModal();
-        } else {
-            setCampoExibicao('dataId', valorData);
-            setCampoExibicao('refSolidaId', valorRefSolida);
-            setCampoExibicao('refLiquidaId', valorRefLiquida);
-            modalConf.showModal();
-        }
-    });
-
-    btnAnalisar2.addEventListener('click', () => {
-        const valorData = getInputValue('dataId');
-        const valorProteina = getInputValue('proteinaId');
-        const valorCarboidrato = getInputValue('carboidratoId');
-        const valorVerdura = getInputValue('verduraId');
-        const valorLegume = getInputValue('legumeId');
-        const valorFruta = getInputValue('frutaId');
-        const valorSuco = getInputValue('sucoId');
-        const valorSobremesa = getInputValue('sobremesaId');
-
-        if (valorData === '') {
-            campoErro.innerText = 'data';
-            modalErro.showModal();
-        } else if (valorProteina === '') {
-            campoErro.innerText = 'proteína';
-            modalErro.showModal();
-        } else if (valorCarboidrato === '') {
-            campoErro.innerText = 'carboidrato';
-            modalErro.showModal();
-        } else if (valorVerdura === '') {
-            campoErro.innerText = 'verdura';
-            modalErro.showModal();
-        } else if (valorLegume === '') {
-            campoErro.innerText = 'legume';
-            modalErro.showModal();
-        } else if (valorFruta === '') {
-            campoErro.innerText = 'fruta';
-            modalErro.showModal();
-        } else if (valorSuco === '') {
-            campoErro.innerText = 'suco';
-            modalErro.showModal();
-        } else if (valorSobremesa === '') {
-            campoErro.innerText = 'sobremesa';
-            modalErro.showModal();
-        } else {
-            setCampoExibicao('dataId', valorData);
-            setCampoExibicao('proteinaId', valorProteina);
-            setCampoExibicao('carboidratoId', valorCarboidrato);
-            setCampoExibicao('verduraId', valorVerdura);
-            setCampoExibicao('legumeId', valorLegume);
-            setCampoExibicao('frutaId', valorFruta);
-            setCampoExibicao('sucoId', valorSuco);
-            setCampoExibicao('sobremesaId', valorSobremesa);
-            modalConf.showModal();
-        }
-    });
-
-    btnCancelar.addEventListener("click", function () {
+window.addEventListener('click', (event) => {
+    if (event.target === modalConf || event.target === modalErro) {
         modalConf.close();
-    });
-    
-    btnSair.addEventListener("click", function () {
         modalErro.close();
+    }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('form');
+    const submitButton = document.querySelector('#enviarId');
+    form.addEventListener('submit', function(event) {
+        submitButton.disabled = true;
+        submitButton.value = 'Enviando...';
     });
-    
-    window.addEventListener('click', (event) => {
-        if (event.target === modalConf || event.target === modalErro) {
-            modalConf.close();
-            modalErro.close();
-        }
-    });
-    
-    document.addEventListener('DOMContentLoaded', function() {
-        const form = document.querySelector('form');
-        const submitButton = document.querySelector('#enviarId');
-        form.addEventListener('submit', function(event) {
-            submitButton.disabled = true;
-            submitButton.value = 'Enviando...';
-        });
-    });
+});
