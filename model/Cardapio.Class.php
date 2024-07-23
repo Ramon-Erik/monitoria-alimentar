@@ -156,7 +156,8 @@ Class Cardapio {
             $id = $this->get_cardapio($data, $tipo_refeicao)['id'];
             $cardapio_atual = $this->get_cardapio_servido($id);
             switch ($this->count_null($cardapio_atual)) {
-                case 9:
+                case 9: //caso esteja tudo NULL
+                case 2: //caso já tenha sido adicionado algo
                     $alimentos = [$proteina, $carboidrato, $verdura, $legume, $fruta, $suco, $sobremesa];
                     $this->atualizar_cardapio_almoco($id, $alimentos);
                     header('location: ../view/cardapio/almoco.php');
