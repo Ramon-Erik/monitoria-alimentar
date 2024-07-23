@@ -72,6 +72,20 @@ Class Cardapio {
             echo $e->getCode();
         }
     }
+    
+    public function atualizar_cardapio_almoco($id, $elementos) {
+        try {
+            foreach ($elementos as $key => $value) {
+                $atualizar = "";
+                $cardapio_servido = $this->pdo->prepare("UPDATE cardapio_servido set $atualizar where id = :id");
+                // $cardapio_servido->bindValue(":proteina", $proteina); 
+                $cardapio_servido->bindValue(":id", $id); 
+                $cardapio_servido->execute();
+            }
+        } catch (Exception $e) {
+            echo $e->getCode();
+        }
+    }
 
     public function registrar_lanche($data, $horario, $ref_solida, $ref_liquida) {
         if (!$this->get_cardapio($data, $horario)) {
@@ -129,7 +143,18 @@ Class Cardapio {
                 echo $e->getCode();
             }
         } else {
-            echo 'erro';
+            $id = $this->get_cardapio($data, $tipo_refeicao)['id'];
+            $cardapio_atual = $this->get_cardapio_servido($id);
+            echo '<pre>';
+            print_r($cardapio_atual);
+            // switch ($this->count_null($cardapio_atual)) {
+            //     case 7:
+            //         // $this->atualizar_cardapio_almoco($id, $proteina, $carboidrato, $verdura, $legume, $fruta, $suco, $sobremesa);
+            //         break;
+            //     default:
+            //         echo 'deu erro ' . $this->count_null($cardapio_atual);
+            //         break;
+            // }
         }
     }
 }
