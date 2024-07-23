@@ -6,27 +6,34 @@ const modalErro = document.querySelector('#erroId');
 
 btnAnalisar.addEventListener('click', () => {
     const campoErro = document.querySelector('#campoErro'); 
-    const campoData = document.querySelector('#campoData'); 
-    const campoRefSol = document.querySelector('#campoRefSol'); 
-    const campoRefLiq = document.querySelector('#campoRefLiq'); 
+    const campoArtigo = document.querySelector('#campoArtigo'); 
+    const campoData = document.querySelector('#campoData');
     const valorData = document.querySelector('#dataId').value;
-    const valorRefSolida = document.querySelector('#refSolidaId').value;
-    const valorRefLiquida = document.querySelector('#refLiquidaId').value;
+    const valoresInputs = document.querySelectorAll('.input-alimento');
+    const camposInputs = document.querySelectorAll('.campo-alimento');
+    let i;
     if (valorData === '') {
-        campoErro.innerText = 'data';
-        modalErro.showModal();
-    } else if (valorRefSolida === '') {
-        campoErro.innerText = 'comida';
-        modalErro.showModal();
-    } else if (valorRefLiquida === '') {
-        campoErro.innerText = 'bebida';
+        campoErro.innerText = 'a data';
         modalErro.showModal();
     } else {
+        for (i = 0; i < 7; i++) {
+            const el = valoresInputs[i];
+            if (el.value === '') {
+                campoArtigo.innerText = i % 2 === 0 ? 'a' : 'o';
+                campoErro.innerText = el.name === 'proteina' ? 'proteína' : el.name;
+                modalErro.showModal();
+                break;
+            }
+        }
+    }
+    if (i === 7) {
+        for (i = 0; i < 7; i++) {
+            console.log(i);
+            camposInputs[i].innerText = valoresInputs[i].value; 
+        }
         campoData.innerText = valorData;
-        campoRefSol.innerText = valorRefSolida;
-        campoRefLiq.innerText = valorRefLiquida;
         modalConf.showModal();
-    } 
+    }
 });
 
 btnCancelar.addEventListener("click", function () {
