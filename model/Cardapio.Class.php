@@ -75,15 +75,25 @@ Class Cardapio {
     
     public function atualizar_cardapio_almoco($id, $elementos) {
         try {
-            foreach ($elementos as $key => $value) {
-                $atualizar = "";
-                $cardapio_servido = $this->pdo->prepare("UPDATE cardapio_servido set $atualizar where id = :id");
-                // $cardapio_servido->bindValue(":proteina", $proteina); 
+            $cardapio_atual = $this->get_cardapio_servido($id);
+            array_shift($cardapio_atual);
+            $i = 0;
+            foreach ($cardapio_atual as $key => $value) {
+                if ($i == 7) {
+                    break;
+                }
+                // echo "$i $key = $elementos[$i] <br><pre>";
+                // print_r($cardapio_atual);
+                // $consulta = 'UPDATE cardapio_servido set ' . $key . ' = ' . $elementos[$i] . ' where id = :id';
+                $consulta = "UPDATE cardapio_servido set $key = '$elementos[$i]' where id = :id";
+                // echo $consulta . '<br>';
+                $cardapio_servido = $this->pdo->prepare($consulta);
                 $cardapio_servido->bindValue(":id", $id); 
                 $cardapio_servido->execute();
+                $i++;
             }
         } catch (Exception $e) {
-            echo $e->getCode();
+            echo $e->getCode() . ' ' . $e->getMessage();
         }
     }
 
@@ -145,16 +155,18 @@ Class Cardapio {
         } else {
             $id = $this->get_cardapio($data, $tipo_refeicao)['id'];
             $cardapio_atual = $this->get_cardapio_servido($id);
-            echo '<pre>';
-            print_r($cardapio_atual);
-            // switch ($this->count_null($cardapio_atual)) {
-            //     case 7:
-            //         // $this->atualizar_cardapio_almoco($id, $proteina, $carboidrato, $verdura, $legume, $fruta, $suco, $sobremesa);
-            //         break;
-            //     default:
-            //         echo 'deu erro ' . $this->count_null($cardapio_atual);
-            //         break;
-            // }
+            switch ($this->count_null($cardapio_atual)) {
+                case 9:
+                    $alimentos = [$proteina, $carboidrato, $verdura, $legume, $fruta, $suco, $sobremesa];
+                    $this->atualizar_cardapio_almoco($id, $alimentos);
+                    header('location: ../view/cardapio/almoco.php');
+                    break;
+                default:
+                    echo 'deu erro ' . $this->count_null($cardapio_atual) . '<br>';
+                    echo $this->count_null($cardapio_atual) . '<pre>';
+                    print_r($cardapio_atual);
+                    break;
+            }
         }
     }
 }
