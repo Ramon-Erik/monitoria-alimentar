@@ -9,4 +9,12 @@ if (isset($_POST['tipo'])) {
     require_once('../model/Cardapio.Class.php');
     $cardapio = new Cardapio;
     $cardapio->registrar_lanche($data, $tipo_refeicao, $ref_solida, $ref_liquida);
+    switch ($$tipo_refeicao) {
+        case 'lm':
+            header('location: ../view/cardapio/lanche-manha.php');
+            break;
+        case 'lt':
+            header('location: ../view/cardapio/lanche-tarde.php');
+            break;
+    }
 }
