@@ -6,6 +6,19 @@ class Avaliacao {
         // $pdo = new pdo("mysql:host=sql311.infinityfree.com; dbname=if0_34490143_monitoria_alimentar_salaberga", "if0_34490143", "ZelVBWHTerGTZY");
     }
 
+    public function pode_avaliar($ref) {
+        $h_atual = new DateTimeImmutable();
+        $h_atual = (int) $h_atual->modify('-3 hours')->format('G');
+        session_start();
+        if ($ref == 'lm' and $h_atual < 9) {
+            return [false, 'lm_h'];
+        } else if ($ref == 'al' and $h_atual < 12) {
+            return [false, 'al_h'];
+        } else if ($ref == 'lt' and $h_atual < 15) {
+            return [false, 'lt_h'];
+        }
+    }
+
     public function cadastrar_avaliacao($av, $serie, $refeicao, $id_cardapio) {
         session_start();
         if (!isset($_SESSION['ultima_resposta']) || time() >=  $_SESSION['ultima_resposta'][1] or $_SESSION['maquina'] === 's') {
