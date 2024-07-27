@@ -6,37 +6,81 @@ class Avaliacao {
         // $pdo = new pdo("mysql:host=sql311.infinityfree.com; dbname=if0_34490143_monitoria_alimentar_salaberga", "if0_34490143", "ZelVBWHTerGTZY");
     }
 
-    public function pode_avaliar($ref) {
+    public function validar_horario($ref) {
         $h_atual = new DateTimeImmutable();
         $h_atual = (int) $h_atual->modify('-3 hours')->format('G');
-        session_start();
-        if ($ref == 'lm' and $h_atual < 9) {
+        if ($ref === 'null-horario') {
+            // echo $ref . 'hhgtfgfgd';
+            // header('location: ../view/erro.php?err=ref');
+            return [false, 'ref'];
+        } else if ($ref == 'lm' and $h_atual < 9) {
             return [false, 'lm_h'];
         } else if ($ref == 'al' and $h_atual < 12) {
             return [false, 'al_h'];
         } else if ($ref == 'lt' and $h_atual < 15) {
             return [false, 'lt_h'];
         }
+        return [true];
     }
 
-    public function cadastrar_avaliacao($av, $serie, $refeicao, $id_cardapio) {
+    public function pode_avaliar($refeicao) {
         session_start();
-        if (!isset($_SESSION['ultima_resposta']) || time() >=  $_SESSION['ultima_resposta'][1] or $_SESSION['maquina'] === 's') {
-            $consulta = "INSERT INTO votacao VALUES (null, curdate(), :av, :serie, :refeicao, :id_cardapio, curtime())";
+        $hoje = new DateTimeImmutable();
+        $hoje = $hoje->modify('-3 hours')->format('d-m-Y');
+        // echo 'vard '; 
+        // var_dump($_SESSION['voto_lm']);
+        switch ($refeicao) {
+            case 'lm':
+                if (isset($_SESSION['voto_lm']) ) {
+                    $data_voto = DateTimeImmutable::createFromFormat('d-m-Y', $_SESSION['voto_lm']);
+                    $data_liberada = $data_voto->modify('+1 day')->format('d-m-Y');
+                    if ($hoje !== $data_liberada) {
+                        return [false, 'vt_lm']; 
+                    }
+                } 
+                break;
+            case 'al':
+                // $data_liberada = $_SESSION['voto_al']->modify('+1 day')->format('d-m-Y');
+                if (isset($_SESSION['voto_al']) and $hoje !== $_SESSION['voto_al']->modify('+1 day')->format('d-m-Y')) {
+                    return [false, 'vt_al']; 
+                } 
+                break;
+            case 'lt':
+                // $data_liberada = $_SESSION['voto_lt']->modify('+1 day')->format('d-m-Y');
+                if (isset($_SESSION['voto_lt']) and $hoje !== $_SESSION['voto_lt']->modify('+1 day')->format('d-m-Y')) {
+                    return [false, 'vt_lt']; 
+                } 
+                break;
+        }
+        return [true, true];
+    }
 
+    public function registrar_voto($av, $serie, $refeicao, $id_cardapio) {
+        try {
+            $consulta = "INSERT INTO votacao VALUES (null, curdate(), :av, :serie, :refeicao, :id_cardapio, curtime())";
             $consulta_feita = $this->pdo->prepare($consulta);
             $consulta_feita->bindValue(":av", $av);
             $consulta_feita->bindValue(":serie", $serie);
             $consulta_feita->bindValue(":refeicao", $refeicao);
             $consulta_feita->bindValue(":id_cardapio", $id_cardapio);
             $consulta_feita->execute();
+        } catch (PDOException $e) {
+            echo $e;
+        }
+    }
 
-            $_SESSION['ultima_resposta'] = [time(), strtotime('tomorrow')];
+    public function cadastrar_avaliacao($av, $serie, $refeicao, $id_cardapio) {
+        if ($this->pode_avaliar($refeicao)[0]) {
+            $this->registrar_voto($av, $serie, $refeicao, $id_cardapio);
+            $_SESSION["voto_$refeicao"] = new DateTimeImmutable();
+            $_SESSION["voto_$refeicao"] = $_SESSION["voto_$refeicao"]->modify('-3 hours')->format('d-m-Y');
             $_SESSION['maquina']= 'i';
-            echo '<script>alert("Sucesso!")</script>';
             header("location: ../view/index.php");
         } else {
-            header("location: ../view/erro.php?err=vote");
+            // var_dump($this->pode_avaliar($refeicao));
+            // echo 'cad_av <pre>';
+            // print_R($this->pode_avaliar($refeicao));
+            header("location: ../view/erro.php?err=" . $this->pode_avaliar($refeicao)[1]);
         }
     }
     public function gerar_relatorio() {
