@@ -11,7 +11,6 @@ radioInputs.forEach(input => {
     });
 });
 
-
 labelBtns.forEach(label => {
     label.addEventListener('click', () => {
         labelBtns.forEach(otherLabel => {
