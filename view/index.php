@@ -13,8 +13,8 @@
 <body>
     <?php
     session_start(); 
-    if (isset($_SESSION['maquina']) and $_SESSION['maquina'] === 'n') {
-        echo '<script>alert("tentativa de login falha")</script>';
+    if (isset($_SESSION['maquina']) and $_SESSION['maquina'] === 's') {
+        echo '<script>alert("Sucesso!")</script>';
     }
     ?> 
     <header></header> 
