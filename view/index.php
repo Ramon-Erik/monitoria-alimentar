@@ -21,7 +21,7 @@
     <main>
         <div class="cabecalho">
             <div class="linha-cab">
-                <h1>Avaliação diária da comida</h1>
+                <h1 class="titulo-center">Avaliação diária da comida</h1>
             </div>
         </div>
         <form action="../control/controle-index.php" method="post">
