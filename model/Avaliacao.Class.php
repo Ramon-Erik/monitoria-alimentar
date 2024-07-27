@@ -27,28 +27,35 @@ class Avaliacao {
         session_start();
         $hoje = new DateTimeImmutable();
         $hoje = $hoje->modify('-3 hours')->format('d-m-Y');
-        // echo 'vard '; 
-        // var_dump($_SESSION['voto_lm']);
+        if (!isset($_SESSION['maquina'])) {
+            $_SESSION['maquina'] = 'n';
+        }
         switch ($refeicao) {
             case 'lm':
-                if (isset($_SESSION['voto_lm']) ) {
+                if (isset($_SESSION['voto_lm'])) {
                     $data_voto = DateTimeImmutable::createFromFormat('d-m-Y', $_SESSION['voto_lm']);
                     $data_liberada = $data_voto->modify('+1 day')->format('d-m-Y');
-                    if ($hoje !== $data_liberada) {
+                    if ($hoje !== $data_liberada and $_SESSION['maquina'] !== 's' ) {
                         return [false, 'vt_lm']; 
                     }
                 } 
                 break;
             case 'al':
-                // $data_liberada = $_SESSION['voto_al']->modify('+1 day')->format('d-m-Y');
-                if (isset($_SESSION['voto_al']) and $hoje !== $_SESSION['voto_al']->modify('+1 day')->format('d-m-Y')) {
-                    return [false, 'vt_al']; 
+                if (isset($_SESSION['voto_al'])) {
+                    $data_voto = DateTimeImmutable::createFromFormat('d-m-Y', $_SESSION['voto_al']);
+                    $data_liberada = $data_voto->modify('+1 day')->format('d-m-Y');
+                    if ($hoje !== $data_liberada and $_SESSION['maquina'] !== 's') {
+                        return [false, 'vt_al']; 
+                    }
                 } 
                 break;
             case 'lt':
-                // $data_liberada = $_SESSION['voto_lt']->modify('+1 day')->format('d-m-Y');
-                if (isset($_SESSION['voto_lt']) and $hoje !== $_SESSION['voto_lt']->modify('+1 day')->format('d-m-Y')) {
-                    return [false, 'vt_lt']; 
+                if (isset($_SESSION['voto_lt'])) {
+                    $data_voto = DateTimeImmutable::createFromFormat('d-m-Y', $_SESSION['voto_lt']);
+                    $data_liberada = $data_voto->modify('+1 day')->format('d-m-Y');
+                    if ($hoje !== $data_liberada and $_SESSION['maquina'] !== 's') {
+                        return [false, 'vt_lt']; 
+                    }
                 } 
                 break;
         }
