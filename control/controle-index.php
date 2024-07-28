@@ -7,7 +7,11 @@ if (isset($_POST['btn'])){
     if ($av->validar_horario($refeicao)[0]) {
         $avaliacao = $_POST['satisfacao'];
         $serie = $_POST['serie'];
-        if ($serie ===  'null-serie') {
+        session_start();
+        if (!isset($_SESSION['maquina'])) {
+            $_SESSION['maquina'] = 'n';
+        }
+        if ($serie ===  'null-serie' and $_SESSION['maquina'] !== 's') {
             header('location: ../view/erro.php?err=serie');
         } else {
             $cardapio = new Cardapio;
