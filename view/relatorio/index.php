@@ -54,14 +54,14 @@
             <div class="linha">
                 <select class="minimal" name="horario" id="horarioId">
                     <option value="completo">Completo</option>
-                    <option value="almoco">Almoco</option>
+                    <option value="almoco">Almoço</option>
                     <option value="lanches">Lanches</option>
                     <option value="lanche_manha">Lanche manhã</option>
                     <option value="lanche_tarde">Lanche tarde</option>
                 </select>
             </div>
             <div class="area-btn">
-                <input type="submit" value="Enviar" name="btn" class="btn mandar"/>
+                <input type="submit" value="Enviar" name="btn_rel" class="btn mandar">
                 <input type="reset" value="Limpar" class="btn limpar">
             </div>
         </form>
