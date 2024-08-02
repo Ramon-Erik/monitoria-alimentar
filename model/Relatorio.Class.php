@@ -54,9 +54,9 @@ class Relatorio {
         }
     }
 
-    public function exibir_resultado($resultado) {
+    public function exibir_resultado_ocorrencia($resultado) {
         try {
-            foreach ($resultado as $key => $value) {
+            foreach ($resultado as $value) {
                 $ref = ($value['tipo_refeicao'] == 'lm') ? 'lanche da manhã' : (($value['tipo_refeicao'] == 'lt') ? 'lanche da tarde' : 'almoço');
                 echo "$value[data] $ref $value[ocorrido] <br>"; 
             }
@@ -79,7 +79,7 @@ class Relatorio {
                 $consulta_feita->bindValue(":tipo_refeicao_$index", $valor, PDO::PARAM_STR);
             }            
             $consulta_feita->execute();
-            $this->exibir_resultado($consulta_feita);
+            $this->exibir_resultado_ocorrencia($consulta_feita);
         } catch (PDOException $e) { echo '<pre>' . $e; }
     }
 
