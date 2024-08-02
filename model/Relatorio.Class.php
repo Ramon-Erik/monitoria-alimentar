@@ -12,31 +12,30 @@ class Relatorio {
         switch ($this->intervalo) {
             default:
             case 'do_dia':
-                $cl_intervalo = '0 DAY';
+                return '0 DAY';
                 break;
             case 'de_ontem':
-                $cl_intervalo = '1 DAY';
+                return '1 DAY';
                 break;
             case 'ultimos_5_dias':
-                $cl_intervalo = '5 DAY';
+                return '5 DAY';
                 break;
             case 'ultimos_15_dias':
-                $cl_intervalo = '15 DAY';
+                return '15 DAY';
                 break;
             case 'ultimo_mes':
-                $cl_intervalo = '1 MONTH';
+                return '1 MONTH';
                 break;
             case 'ultimo_trimestre':
-                $cl_intervalo = '3 MONTH';
+                return '3 MONTH';
                 break;
             case 'ultimo_semestre':
-                $cl_intervalo = '6 MONTH';
+                return '6 MONTH';
                 break;
             case 'ultimo_ano':
-                $cl_intervalo = '1 YEAR';
+                return '1 YEAR';
                 break;
         }
-        return $cl_intervalo;
     }
 
     public function clausula_horario() {
@@ -73,7 +72,7 @@ class Relatorio {
                 $placeholders[] = ":tipo_refeicao_$index";
             }
             $placeholders_str = implode(', ', $placeholders);
-            
+
             $con = 'SELECT ocorrencia.data, cardapio.tipo_refeicao, ocorrencia.ocorrido FROM ocorrencia INNER JOIN cardapio ON ocorrencia.id_cardapio = cardapio.id WHERE ocorrencia.data >= DATE_SUB(CURRENT_DATE(), INTERVAL ' . $condicao_intervalo . ') AND cardapio.tipo_refeicao IN (' . $placeholders_str . ')';
             $consulta_feita = $this->pdo->prepare($con);
             foreach ($condicoes_horario as $index => $valor) {
