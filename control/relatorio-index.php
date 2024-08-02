@@ -6,13 +6,13 @@ if (isset($_POST['btn_rel'])) {
     $tipoRelatorio = $_POST['relatorio'];
     switch ($tipoRelatorio) {
         case 'ocorrencia':
-            header('location: ../view/cardapio/ocorrencia.php');
+            header('location: ../view/relatorio/ocorrencia.php');
             break;
         case 'avaliacao':
-            header('location: ../view/cardapio/avaliacao.php');
+            header('location: ../view/relatorio/avaliacao.php');
             break;
         case 'cardapio':
-            header('location: ../view/cardapio/cardapio.php');
+            header('location: ../view/relatorio/cardapio.php');
             break;
         default:
             header('location: ../view/erro.php?err=tp_r');
