@@ -83,4 +83,10 @@ class Relatorio {
         } catch (PDOException $e) { echo '<pre>' . $e; }
     }
 
+    public function refeicao() {
+        $condicao_intervalo = $this->clausula_intervalo();
+        $condicoes_horario = $this->clausula_horario();
+        $con = 'SElECT cardapio.data';
+    }
+
 }
