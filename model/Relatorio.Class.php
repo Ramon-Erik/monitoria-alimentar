@@ -43,22 +43,16 @@ class Relatorio {
         switch ($this->horario) {
             default:
             case 'completo':
-                $cl_horario = '"lm" or cardapio.tipo_refeicao = "al" or cardapio.tipo_refeicao = "lt"';
-                break;
+                return ['lm', 'al', 'lt'];
             case 'almoco':
-                $cl_horario = "'al'";
-                break;
+                return ['al'];
             case 'lanches':
-                $cl_horario = "'lm'  or cardapio.tipo_refeicao = 'lt'";
-                break;
+                return ['lm', 'lt'];
             case 'lanche_manha':
-                $cl_horario = "'lm'";
-                break;
+                return ['lm'];
             case 'lanche_tarde':
-                $cl_horario = "'lt'";
-                break;
+                return ['lt'];
         }
-        return $cl_horario;
     }
 
     public function exibir_resultado($resultado) {
@@ -73,19 +67,20 @@ class Relatorio {
     public function ocorrencia() {
         try {
             $condicao_intervalo = $this->clausula_intervalo();
-            $condicao_horario = $this->clausula_horario();
-            // echo "i = $condicao_intervalo e $condicao_horario";
-            $con = 'SELECT ocorrencia.data, cardapio.tipo_refeicao, ocorrencia.ocorrido FROM ocorrencia INNER JOIN cardapio on ocorrencia.id_cardapio = cardapio.id where ocorrencia.data >= DATE_SUB(CURRENT_DATE(), INTERVAL :condicao_intervalo) and cardapio.tipo_refeicao = :condicao_horario;';
-            $consulta_feita = $this->pdo->prepare($con);
-            $consulta_feita->bindValue(":condicao_intervalo", $condicao_intervalo);
-            $consulta_feita->bindValue(":condicao_horario", $condicao_horario);
-            $consulta_feita->execute();
-            foreach ($consulta_feita as $key => $value) {
-                echo $value;
-                $ref = ($value['tipo_refeicao'] == 'lm') ? 'lanche da manhã' : (($value['tipo_refeicao'] == 'lt') ? 'lanche da tarde' : 'almoço');
-                echo "$value[data] $ref $value[ocorrido] <br>"; 
+            $condicoes_horario = $this->clausula_horario();
+            $placeholders = [];
+            foreach ($condicoes_horario as $index => $valor) {
+                $placeholders[] = ":tipo_refeicao_$index";
             }
-            // $this->exibir_resultado($consulta_feita);
+            $placeholders_str = implode(', ', $placeholders);
+            
+            $con = 'SELECT ocorrencia.data, cardapio.tipo_refeicao, ocorrencia.ocorrido FROM ocorrencia INNER JOIN cardapio ON ocorrencia.id_cardapio = cardapio.id WHERE ocorrencia.data >= DATE_SUB(CURRENT_DATE(), INTERVAL ' . $condicao_intervalo . ') AND cardapio.tipo_refeicao IN (' . $placeholders_str . ')';
+            $consulta_feita = $this->pdo->prepare($con);
+            foreach ($condicoes_horario as $index => $valor) {
+                $consulta_feita->bindValue(":tipo_refeicao_$index", $valor, PDO::PARAM_STR);
+            }            
+            $consulta_feita->execute();
+            $this->exibir_resultado($consulta_feita);
         } catch (PDOException $e) { echo '<pre>' . $e; }
     }
 
