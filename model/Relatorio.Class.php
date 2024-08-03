@@ -62,6 +62,19 @@ class Relatorio {
             }
         } catch (Exception $e) { echo $e; }
     }
+    
+    public function exibir_resultado_lanche($resultado) {
+        try {
+            foreach ($resultado as $value) {
+                // $ref = ($value['tipo_refeicao'] == 'lm') ? 'lanche da manhã' : (($value['tipo_refeicao'] == 'lt') ? 'lanche da tarde' : 'almoço');
+                // echo "$value[data] $ref $value[ocorrido] <br>"; 
+
+                $ref_s = (is_null($value['ref_solida'])) ? 'nada' : $value['ref_solida'];
+                $ref_l = (is_null($value['ref_liquida'])) ? 'nada' : $value['ref_liquida'];
+                echo "$value[data] $ref_s $ref_l $value[total_bom] $value[total_ruim]";
+            }
+        } catch (Exception $e) { echo $e; }
+    }
 
     public function ocorrencia() {
         try {
@@ -73,7 +86,7 @@ class Relatorio {
             }
             $placeholders_str = implode(', ', $placeholders);
 
-            $con = 'SELECT ocorrencia.data, cardapio.tipo_refeicao, ocorrencia.ocorrido FROM ocorrencia INNER JOIN cardapio ON ocorrencia.id_cardapio = cardapio.id WHERE ocorrencia.data >= DATE_SUB(CURRENT_DATE(), INTERVAL ' . $condicao_intervalo . ') AND cardapio.tipo_refeicao IN (' . $placeholders_str . ')';
+            $con = 'SELECT ocorrencia.data, cardapio.tipo_refeicao, ocorrencia.ocorrido FROM ocorrencia INNER JOIN cardapio ON ocorrencia.id_cardapio = cardapio.id WHERE ocorrencia.data >= DATE_SUB(CURRENT_DATE, INTERVAL ' . $condicao_intervalo . ') AND cardapio.tipo_refeicao IN (' . $placeholders_str . ')';
             $consulta_feita = $this->pdo->prepare($con);
             foreach ($condicoes_horario as $index => $valor) {
                 $consulta_feita->bindValue(":tipo_refeicao_$index", $valor, PDO::PARAM_STR);
@@ -83,10 +96,24 @@ class Relatorio {
         } catch (PDOException $e) { echo '<pre>' . $e; }
     }
 
-    public function refeicao() {
+    public function cardapio_lanche() {
         $condicao_intervalo = $this->clausula_intervalo();
         $condicoes_horario = $this->clausula_horario();
-        $con = 'SElECT cardapio.data';
+        $placeholders = [];
+            foreach ($condicoes_horario as $index => $valor) {
+                $placeholders[] = ":tipo_refeicao_$index";
+            }
+        $placeholders_str = implode(', ', $placeholders);
+
+        $con = "SELECT cardapio.data, cardapio_servido.ref_solida, cardapio_servido.ref_liquida, SUM(CASE WHEN votacao.opcao_marcada = 'bom' THEN 1 ELSE 0 END) as total_bom, SUM(CASE WHEN votacao.opcao_marcada = 'ruim' THEN 1 ELSE 0 END) as total_ruim FROM `cardapio` INNER JOIN cardapio_servido ON cardapio.id_cardapio_servido = cardapio_servido.id INNER JOIN votacao on cardapio.id = votacao.id_cardapio WHERE cardapio.tipo_refeicao IN (" . $placeholders_str . ") AND cardapio.data >= DATE_SUB(CURRENT_DATE, INTERVAL " . $condicao_intervalo . ");";
+        $consulta_feita = $this->pdo->prepare($con);
+        foreach ($condicoes_horario as $index => $valor) {
+            $consulta_feita->bindValue(":tipo_refeicao_$index", $valor, PDO::PARAM_STR);
+        }
+        $consulta_feita->execute();
+        $this->exibir_resultado_lanche($consulta_feita);
     }
+
+    public function cardapio_almoco() {}
 
 }

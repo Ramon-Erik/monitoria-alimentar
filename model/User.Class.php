@@ -2,12 +2,12 @@
 class User {
     public function login($senha) {
         session_start();
-        if ($senha === 'info!@221b') {
+        if ($senha === '0') {
             $_SESSION['maquina'] = 's';
             // $_SESSION['ultima_resposta'] = [time(), strtotime('tomorrow')];
             // echo $_SESSION['maquina'];
             header("location: ../view/index.php");
-        } else if ($senha === 'info!@adm') {
+        } else if ($senha === '1') {
             $_SESSION['login'] = 'admin';
             header('location: ../view/painel.php');
         } else {

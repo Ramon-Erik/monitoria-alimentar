@@ -12,9 +12,21 @@ if (isset($_POST['btn_rel'])) {
             header('location: ../view/relatorio/avaliacao.php');
             break;
         case 'cardapio':
-            header('location: ../view/relatorio/cardapio.php');
+            if ($_POST['horario'] === 'completo') {
+                header('location: ../view/relatorio/completo.php');
+            }
+            else if ($_POST['horario'] === 'almoco') {
+                header('location: ../view/relatorio/almoco.php');
+            }
+            else if (str_contains($_POST['horario'], 'lanche')) {
+                header('location: ../view/relatorio/lanche.php');
+            } else {
+                // erro com o horario solicitado
+                header('location: ../view/erro.php?err=h_r');
+            }
             break;
         default:
+            // erro com o tipo de relatorio solicitado
             header('location: ../view/erro.php?err=tp_r');
             break;
     }
