@@ -139,7 +139,7 @@ class Relatorio
             }
             $placeholders_str = implode(', ', $placeholders);
 
-            $con = "SELECT cardapio.data, cardapio_servido.ref_solida, cardapio_servido.ref_liquida FROM `cardapio` INNER JOIN cardapio_servido ON cardapio.id_cardapio_servido = cardapio_servido.id INNER JOIN votacao on cardapio.id = votacao.id_cardapio WHERE cardapio.tipo_refeicao IN (" . $placeholders_str . ") AND cardapio.data >= DATE_SUB(CURRENT_DATE, INTERVAL " . $condicao_intervalo . ");";
+            $con = "SELECT cardapio.data, cardapio_servido.ref_solida, cardapio_servido.ref_liquida FROM `cardapio` INNER JOIN cardapio_servido ON cardapio.id_cardapio_servido = cardapio_servido.id WHERE cardapio.tipo_refeicao IN (" . $placeholders_str . ") AND cardapio.data >= DATE_SUB(CURRENT_DATE, INTERVAL " . $condicao_intervalo . ");";
             $consulta_feita = $this->pdo->prepare($con);
             foreach ($condicoes_horario as $index => $valor) {
                 $consulta_feita->bindValue(":tipo_refeicao_$index", $valor, PDO::PARAM_STR);
@@ -162,7 +162,7 @@ class Relatorio
             }
             $placeholders_str = implode(', ', $placeholders);
 
-            $con = "SELECT cardapio.data, cardapio_servido.carboidrato, cardapio_servido.verdura, cardapio_servido.legume, cardapio_servido.fruta, cardapio_servido.suco, cardapio_servido.sobremesa, cardapio_servido.proteina FROM `cardapio` INNER JOIN cardapio_servido ON cardapio.id_cardapio_servido = cardapio_servido.id INNER JOIN votacao on cardapio.id = votacao.id_cardapio WHERE cardapio.tipo_refeicao IN (" . $placeholders_str . ") AND cardapio.data >= DATE_SUB(CURRENT_DATE, INTERVAL " . $condicao_intervalo . ");";
+            $con = "SELECT cardapio.data, cardapio_servido.carboidrato, cardapio_servido.verdura, cardapio_servido.legume, cardapio_servido.fruta, cardapio_servido.suco, cardapio_servido.sobremesa, cardapio_servido.proteina FROM `cardapio` INNER JOIN cardapio_servido ON cardapio.id_cardapio_servido = cardapio_servido.id WHERE cardapio.tipo_refeicao IN (" . $placeholders_str . ") AND cardapio.data >= DATE_SUB(CURRENT_DATE, INTERVAL " . $condicao_intervalo . ");";
             $consulta_feita = $this->pdo->prepare($con);
             foreach ($condicoes_horario as $index => $valor) {
                 $consulta_feita->bindValue(":tipo_refeicao_$index", $valor, PDO::PARAM_STR);
