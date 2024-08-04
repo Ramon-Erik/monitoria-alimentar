@@ -144,6 +144,46 @@ class Relatorio {
         $this->exibir_resultado_almoco($consulta_feita);
     }
     
-    public function cardapio_completo() {}
+    public function cardapio_completo() {
+        $condicao_intervalo = $this->clausula_intervalo();
+        $condicoes_horario = $this->clausula_horario();
+        $placeholders = [];
+            foreach ($condicoes_horario as $index => $valor) {
+                $placeholders[] = ":tipo_refeicao_$index";
+            }
+        $placeholders_str = implode(', ', $placeholders);
+
+        $con = "SELECT 
+    cardapio.data,
+    MAX(CASE WHEN cardapio.tipo_refeicao = 'lm' THEN cardapio_servido.ref_solida END) AS lanche_manha_solida,
+    MAX(CASE WHEN cardapio.tipo_refeicao = 'lm' THEN cardapio_servido.ref_liquida END) AS lanche_manha_liquida,
+    MAX(CASE WHEN cardapio.tipo_refeicao = 'al' THEN cardapio_servido.carboidrato END) AS carboidrato,
+    MAX(CASE WHEN cardapio.tipo_refeicao = 'al' THEN cardapio_servido.verdura END) AS verdura,
+    MAX(CASE WHEN cardapio.tipo_refeicao = 'al' THEN cardapio_servido.legume END) AS legume,
+    MAX(CASE WHEN cardapio.tipo_refeicao = 'al' THEN cardapio_servido.fruta END) AS fruta,
+    MAX(CASE WHEN cardapio.tipo_refeicao = 'al' THEN cardapio_servido.suco END) AS suco,
+    MAX(CASE WHEN cardapio.tipo_refeicao = 'al' THEN cardapio_servido.sobremesa END) AS sobremesa,
+    MAX(CASE WHEN cardapio.tipo_refeicao = 'al' THEN cardapio_servido.proteina END) AS proteina,
+    MAX(CASE WHEN cardapio.tipo_refeicao = 'lt' THEN cardapio_servido.ref_solida END) AS lanche_tarde_solida,
+    MAX(CASE WHEN cardapio.tipo_refeicao = 'lt' THEN cardapio_servido.ref_liquida END) AS lanche_tarde_liquida
+FROM 
+    cardapio 
+INNER JOIN 
+    cardapio_servido ON cardapio.id_cardapio_servido = cardapio_servido.id
+WHERE 
+    cardapio.data >= DATE_SUB(CURRENT_DATE, INTERVAL ". $condicao_intervalo . ")
+    AND cardapio.tipo_refeicao IN (" . $placeholders_str . ")
+GROUP BY 
+    cardapio.data
+ORDER BY 
+    cardapio.data;
+";
+        $consulta_feita = $this->pdo->prepare($con);
+        foreach ($condicoes_horario as $index => $valor) {
+            $consulta_feita->bindValue(":tipo_refeicao_$index", $valor, PDO::PARAM_STR);
+        }
+        $consulta_feita->execute();
+        $this->exibir_resultado_almoco($consulta_feita);
+    }
 
 }
