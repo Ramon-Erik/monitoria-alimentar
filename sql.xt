@@ -1,9 +1,94 @@
-create database monitoria_alimentar_salaberga;
+--Modelo físico
+--Criar tabelas
+create database sistema_monitoria_alimentar
 
--- selecione a database criada
-create  table avaliacao (
-	id int primary key not null AUTO_INCREMENT,
-    nota enum('bom', 'ruim'),
-    dia date,
-    hora time
-)
+create table votacao (
+id int primary key not null auto_increment,
+data date,
+hora time,
+opcao_marcada enum('bom', 'ruim'),
+serie enum('1a', '1b', '1m','1ad', '1d', '2a', '2b', '2m', '2ad','2d', '3a', '3b', '3m', '3ad', '3d'),
+tipo_refeicao enum('lanche', 'almoco'),
+id_cardapio int
+);
+
+create table ocorrencia (
+	id int primary key not null auto_increment,
+data date,
+ocorrido varchar(200),
+id_cardapio int
+);
+
+create table cardapio (
+id int primary key not null auto_increment,
+data date,
+tipo_refeicao enum('lm', 'al', 'lt'),
+id_cardapio_servido int,
+foreign key(id_cardapio_servido ) references cardapio_servido (id)
+);
+
+create table cardapio_servido (
+	id int primary key not null auto_increment,
+proteina varchar(60),
+carboidrato varchar(60),
+verdura varchar(60),
+legume varchar(60),
+fruta varchar(60),
+suco varchar(60),
+sobremesa varchar(60),
+ref_liquida varchar(60),
+ref_solida varchar(60)
+);
+
+alter table votacao add foreign key(id_cardapio) references cardapio (id);
+alter table ocorrencia add foreign key(id_cardapio) references cardapio (id);
+alter table cardapio add foreign key(id_cardapio_servido ) references cardapio_servido (id);
+-- Inserir dados para teste
+-- Inserir dados na tabela cardapio_servido para 5 almoços
+INSERT INTO cardapio_servido (proteina, carboidrato, verdura, legume, fruta, suco, sobremesa, ref_liquida, ref_solida) VALUES
+('Frango', 'Arroz', 'Alface', 'Cenoura', 'Maçã', 'Suco de Laranja', 'Pudim', NULL, NULL),
+('Peixe', 'Batata', 'Tomate', 'Brócolis', 'Banana', 'Suco de Maçã', 'Gelatina', NULL, NULL),
+('Carne', 'Macarrão', 'Couve', 'Beterraba', 'Laranja', 'Suco de Uva', 'Bolo', NULL, NULL),
+('Porco', 'Feijão', 'Espinafre', 'Abobrinha', 'Melancia', 'Suco de Abacaxi', 'Sorvete', NULL, NULL),
+('Tofu', 'Quinoa', 'Rúcula', 'Pepino', 'Abacate', 'Suco de Limão', 'Mousse', NULL, NULL);
+
+-- Inserir dados na tabela cardapio_servido para 5 lanches da manhã
+INSERT INTO cardapio_servido (proteina, carboidrato, verdura, legume, fruta, suco, sobremesa, ref_liquida, ref_solida) VALUES
+(NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Achocolatado', 'Biscoito'),
+(NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Leite', 'Pão de Queijo'),
+(NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Chá', 'Bolacha'),
+(NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Iogurte', 'Granola'),
+(NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Vitamina', 'Pão Integral');
+
+-- Inserir dados na tabela cardapio_servido para 5 lanches da tarde
+INSERT INTO cardapio_servido (proteina, carboidrato, verdura, legume, fruta, suco, sobremesa, ref_liquida, ref_solida) VALUES
+(NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Leite', 'Torrada'),
+(NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Iogurte', 'Bolo'),
+(NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Café', 'Bolinho'),
+(NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Chá Verde', 'Cookie'),
+(NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Água de Coco', 'Tapioca');
+
+-- Inserir dados na tabela cardapio para 5 dias
+-- Primeiro para os lanches da manhã
+INSERT INTO cardapio (data, tipo_refeicao, id_cardapio_servido) VALUES
+('2024-08-01', 'lm', 6),
+('2024-08-02', 'lm', 7),
+('2024-08-03', 'lm', 8),
+('2024-08-04', 'lm', 9),
+('2024-08-05', 'lm', 10);
+
+-- Depois para os almoços
+INSERT INTO cardapio (data, tipo_refeicao, id_cardapio_servido) VALUES
+('2024-08-01', 'al', 1),
+('2024-08-02', 'al', 2),
+('2024-08-03', 'al', 3),
+('2024-08-04', 'al', 4),
+('2024-08-05', 'al', 5);
+
+-- Finalmente para os lanches da tarde
+INSERT INTO cardapio (data, tipo_refeicao, id_cardapio_servido) VALUES
+('2024-08-01', 'lt', 11),
+('2024-08-02', 'lt', 12),
+('2024-08-03', 'lt', 13),
+('2024-08-04', 'lt', 14),
+('2024-08-05', 'lt', 15);
