@@ -100,6 +100,28 @@ class Relatorio
             echo $e;
         }
     }
+    
+    public function exibir_resultado_completo($resultado)
+    {
+        try {
+            foreach ($resultado as $value) {
+                $ref_s_m = (is_null($value['lanche_manha_solida'])) ? 'nada' : $value['lanche_manha_solida'];
+                $ref_l_m = (is_null($value['lanche_manha_liquida'])) ? 'nada' : $value['lanche_manha_liquida'];
+                $ref_s_t = (is_null($value['lanche_manha_solida'])) ? 'nada' : $value['lanche_manha_solida'];
+                $ref_l_t = (is_null($value['lanche_manha_liquida'])) ? 'nada' : $value['lanche_manha_liquida'];
+                $carboidrato = (is_null($value['carboidrato'])) ? 'nada' : $value['carboidrato'];
+                $verdura = (is_null($value['verdura'])) ? 'nada' : $value['verdura'];
+                $legume = (is_null($value['legume'])) ? 'nada' : $value['legume'];
+                $fruta = (is_null($value['fruta'])) ? 'nada' : $value['fruta'];
+                $suco = (is_null($value['suco'])) ? 'nada' : $value['suco'];
+                $sobremesa = (is_null($value['sobremesa'])) ? 'nada' : $value['sobremesa'];
+                $proteina = (is_null($value['proteina'])) ? 'nada' : $value['proteina'];
+                echo "$value[data] $ref_s_m $ref_l_m $carboidrato $verdura $legume $fruta $suco $sobremesa $proteina $ref_s_t $ref_l_t<br>";
+            }
+        } catch (Exception $e) {
+            echo $e;
+        }
+    }
 
     public function exibir_resultado_votacao($resultado)
     {
@@ -139,7 +161,7 @@ class Relatorio
             }
             $placeholders_str = implode(', ', $placeholders);
 
-            $con = "SELECT cardapio.data, cardapio_servido.ref_solida, cardapio_servido.ref_liquida FROM `cardapio` INNER JOIN cardapio_servido ON cardapio.id_cardapio_servido = cardapio_servido.id WHERE cardapio.tipo_refeicao IN (" . $placeholders_str . ") AND cardapio.data >= DATE_SUB(CURRENT_DATE, INTERVAL " . $condicao_intervalo . ");";
+            $con = "SELECT cardapio.data, cardapio_servido.ref_solida, cardapio_servido.ref_liquida FROM `cardapio` INNER JOIN cardapio_servido ON cardapio.id_cardapio_servido = cardapio_servido.id WHERE cardapio.tipo_refeicao IN (" . $placeholders_str . ") AND cardapio.data >= DATE_SUB(CURRENT_DATE, INTERVAL " . $condicao_intervalo . ") ORDER BY cardapio.data, cardapio.tipo_refeicao;";
             $consulta_feita = $this->pdo->prepare($con);
             foreach ($condicoes_horario as $index => $valor) {
                 $consulta_feita->bindValue(":tipo_refeicao_$index", $valor, PDO::PARAM_STR);
@@ -162,7 +184,7 @@ class Relatorio
             }
             $placeholders_str = implode(', ', $placeholders);
 
-            $con = "SELECT cardapio.data, cardapio_servido.carboidrato, cardapio_servido.verdura, cardapio_servido.legume, cardapio_servido.fruta, cardapio_servido.suco, cardapio_servido.sobremesa, cardapio_servido.proteina FROM `cardapio` INNER JOIN cardapio_servido ON cardapio.id_cardapio_servido = cardapio_servido.id WHERE cardapio.tipo_refeicao IN (" . $placeholders_str . ") AND cardapio.data >= DATE_SUB(CURRENT_DATE, INTERVAL " . $condicao_intervalo . ");";
+            $con = "SELECT cardapio.data, cardapio_servido.carboidrato, cardapio_servido.verdura, cardapio_servido.legume, cardapio_servido.fruta, cardapio_servido.suco, cardapio_servido.sobremesa, cardapio_servido.proteina FROM `cardapio` INNER JOIN cardapio_servido ON cardapio.id_cardapio_servido = cardapio_servido.id WHERE cardapio.tipo_refeicao IN (" . $placeholders_str . ") AND cardapio.data >= DATE_SUB(CURRENT_DATE, INTERVAL " . $condicao_intervalo . ") ORDER BY cardapio.data, cardapio.tipo_refeicao;";
             $consulta_feita = $this->pdo->prepare($con);
             foreach ($condicoes_horario as $index => $valor) {
                 $consulta_feita->bindValue(":tipo_refeicao_$index", $valor, PDO::PARAM_STR);
@@ -215,7 +237,7 @@ class Relatorio
                 $consulta_feita->bindValue(":tipo_refeicao_$index", $valor, PDO::PARAM_STR);
             }
             $consulta_feita->execute();
-            $this->exibir_resultado_almoco($consulta_feita);
+            $this->exibir_resultado_completo($consulta_feita);
         } catch (Exception $e) {
             echo $e;
         }
