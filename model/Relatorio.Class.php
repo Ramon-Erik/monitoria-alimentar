@@ -109,7 +109,8 @@ class Relatorio {
     }
 
     public function cardapio_lanche() {
-        $condicao_intervalo = $this->clausula_intervalo();
+        try { 
+            $condicao_intervalo = $this->clausula_intervalo();
         $condicoes_horario = $this->clausula_horario();
         $placeholders = [];
             foreach ($condicoes_horario as $index => $valor) {
@@ -124,10 +125,14 @@ class Relatorio {
         }
         $consulta_feita->execute();
         $this->exibir_resultado_lanche($consulta_feita);
+    } catch (Exception $e) {
+        echo $e;
+    }
     }
 
     public function cardapio_almoco() {
-        $condicao_intervalo = $this->clausula_intervalo();
+        try { 
+            $condicao_intervalo = $this->clausula_intervalo();
         $condicoes_horario = $this->clausula_horario();
         $placeholders = [];
             foreach ($condicoes_horario as $index => $valor) {
@@ -142,10 +147,14 @@ class Relatorio {
         }
         $consulta_feita->execute();
         $this->exibir_resultado_almoco($consulta_feita);
+    } catch (Exception $e) {
+        echo $e;
+    }
     }
     
     public function cardapio_completo() {
-        $condicao_intervalo = $this->clausula_intervalo();
+        try { 
+            $condicao_intervalo = $this->clausula_intervalo();
         $condicoes_horario = $this->clausula_horario();
         $placeholders = [];
             foreach ($condicoes_horario as $index => $valor) {
@@ -184,6 +193,29 @@ class Relatorio {
         }
         $consulta_feita->execute();
         $this->exibir_resultado_almoco($consulta_feita);
+    } catch (Exception $e) {
+        echo $e;
+    }
+    }
+
+    public function votacao() {
+        try {
+            $condicao_intervalo = $this->clausula_intervalo();
+            $condicoes_horario = $this->clausula_horario();
+            $placeholders = [];
+            foreach ($condicoes_horario as $index => $valor) {
+                $placeholders[] = ":tipo_refeicao_$index";
+            }
+            $placeholders_str = implode(', ', $placeholders);
+
+            $con = 'SELECT ocorrencia.data, cardapio.tipo_refeicao, ocorrencia.ocorrido FROM ocorrencia INNER JOIN cardapio ON ocorrencia.id_cardapio = cardapio.id WHERE ocorrencia.data >= DATE_SUB(CURRENT_DATE, INTERVAL ' . $condicao_intervalo . ') AND cardapio.tipo_refeicao IN (' . $placeholders_str . ')';
+            $consulta_feita = $this->pdo->prepare($con);
+            foreach ($condicoes_horario as $index => $valor) {
+                $consulta_feita->bindValue(":tipo_refeicao_$index", $valor, PDO::PARAM_STR);
+            }            
+            $consulta_feita->execute();
+            $this->exibir_resultado_ocorrencia($consulta_feita);
+        } catch (PDOException $e) { echo '<pre>' . $e; }
     }
 
 }
