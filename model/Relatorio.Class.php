@@ -125,6 +125,15 @@ class Relatorio
 
     public function exibir_resultado_votacao($resultado)
     {
+        try {
+            foreach ($resultado as $value) {
+                $ref = ($value['tipo_refeicao'] == 'lm') ? 'lanche da manhã' : (($value['tipo_refeicao'] == 'lt') ? 'lanche da tarde' : 'almoço');
+                echo "$value[data] $ref $value[total_bom] $value[total_ruim]<br>";
+            }
+        } catch (Exception $e) {
+            echo $e;
+        }
+
     }
 
     public function ocorrencia()
@@ -243,7 +252,7 @@ class Relatorio
         }
     }
 
-    public function votacao()
+    public function avaliacao()
     {
         try {
             $condicao_intervalo = $this->clausula_intervalo();
@@ -254,7 +263,25 @@ class Relatorio
             }
             $placeholders_str = implode(', ', $placeholders);
 
-            $con = 'SELECT cardapio.data, cardapio.tipo_refeicao, SUM(CASE WHEN votacao.opcao_marcada = "bom" THEN 1 ELSE 0 END) AS total_bom, SUM(CASE WHEN votacao.opcao_marcada = "ruim" THEN 1 ELSE 0 END) AS total_ruim FROM cardapio LEFT JOIN votacao ON cardapio.id = votacao.id_cardapio WHERE cardapio.data >= DATE_SUB(CURRENT_DATE, INTERVAL 2 DAY) AND cardapio.tipo_refeicao IN ("lm", "al", "lt") GROUP BY cardapio.data, cardapio.tipo_refeicao ORDER BY cardapio.data, cardapio.tipo_refeicao WHERE ocorrencia.data >= DATE_SUB(CURRENT_DATE, INTERVAL ' . $condicao_intervalo . ') AND cardapio.tipo_refeicao IN (' . $placeholders_str . ') order by data';
+            $con = "
+                SELECT 
+                    cardapio.data,
+                    cardapio.tipo_refeicao,
+                    SUM(CASE WHEN votacao.opcao_marcada = 'bom' THEN 1 ELSE 0 END) AS total_bom,
+                    SUM(CASE WHEN votacao.opcao_marcada = 'ruim' THEN 1 ELSE 0 END) AS total_ruim
+                FROM 
+                    cardapio
+                LEFT JOIN 
+                    votacao ON cardapio.id = votacao.id_cardapio
+                WHERE 
+                    cardapio.data >= DATE_SUB(CURRENT_DATE, INTERVAL " . $condicao_intervalo . ")
+                    AND cardapio.tipo_refeicao IN (" . $placeholders_str . ")
+                GROUP BY 
+                    cardapio.data, cardapio.tipo_refeicao
+                ORDER BY 
+                    cardapio.data, cardapio.tipo_refeicao;
+            ";
+            $consulta_feita = $this->pdo->prepare($con);
             $consulta_feita = $this->pdo->prepare($con);
             foreach ($condicoes_horario as $index => $valor) {
                 $consulta_feita->bindValue(":tipo_refeicao_$index", $valor, PDO::PARAM_STR);
