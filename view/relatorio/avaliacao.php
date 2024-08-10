@@ -3,10 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Relátorio de avaliações</title>
     <link rel="stylesheet" href="../css/tabela.css">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/2.1.3/css/dataTables.dataTables.min.css">
+    <style>
+        .data {
+            text-align: left !important;
+        }
+        :not(.data) {
+            text-align: center !important;
+        }
+    </style>
 </head>
 <body>
     <main>
@@ -21,7 +29,10 @@
             </table>
         </section>
     </main>
-    <script src="https://cdn.datatables.net/2.0.8/js/dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/2.1.3/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.1.1/js/dataTables.buttons.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.1.1/js/buttons.dataTables.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.1.1/js/buttons.print.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             setTimeout(() => {
@@ -42,11 +53,16 @@
                 });
             }, 1200);
         });
+        // const ths = document.querySelectorAll('th');
+        // console.log(nn);
         var table = new DataTable('table.cell-border', {
             language: {
                 url: 'https://cdn.datatables.net/plug-ins/2.0.8/i18n/pt-BR.json',
-            },
-            // lengthMenu: [5, 10, 25, 50, 75, 100]
+            }, layout: {
+                topStart: {
+                    buttons: ['print']
+                }
+            }
         });
         table;
     </script>

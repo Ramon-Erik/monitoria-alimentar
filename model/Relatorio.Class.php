@@ -14,27 +14,38 @@ class Relatorio
     {
         $i = 0;
         foreach ($resultado as $r) {
-            unset($r[0]);
-            unset($r[1]);
-            unset($r[2]);
-            unset($r[3]);
             $r['total'] = $r['total_bom'] + $r['total_ruim'];
+            foreach ($r as $key => $va) {
+                if (!is_string($key)) {
+                    unset($r[$key]);
+                }
+            }
             $res[] = $r;
             if ($i == 0) {
                 $itens_cabecalho = array_keys($r);
             }
             $i++;
         }
+        $_SESSION['nths'] = count($itens_cabecalho); 
         echo '<thead><tr>';
         foreach ($itens_cabecalho as $i) {
-                echo "<th>$i</th>";
+                if ($i == 'data') {
+                    echo "<th class=\"data\">$i</th>";
+                } else {
+                    echo "<th>$i</th>";
+                }
         }
         echo '</tr></thead>';
         echo '<tbody>';
         foreach ($res as $v) {
             echo '<tr>';
             foreach ($v as $value) {
-                echo "<td>$value</td>";
+                if (preg_match('/-/', $value)) {
+                    // echo "<td class=\"data\"> data $value</td>";
+                    echo "<td class=\"data\">$value</td>";
+                } else {
+                    echo "<td>$value</td>";
+                }
             }
             echo '</tr>';
         }
