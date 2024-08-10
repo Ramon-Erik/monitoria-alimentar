@@ -57,7 +57,7 @@
             <div class="link">
                 <div class="button"><a href="relatorio/index.php" class="icone"> <span class="material-icons">note_alt</span></a></div>
                 <div class="texto-func">
-                    <a href="relatorio/index.php"><h4>Gerar rlatório</h4></a>
+                    <a href="relatorio/index.php"><h4>Gerar relatório</h4></a>
                     <p>Peça um relatório dos dados do site.</p>
                 </div>
             </div>
