@@ -10,6 +10,37 @@ class Relatorio
         // $pdo = new pdo("mysql:host=sql311.infinityfree.com; dbname=if0_34490143_monitoria_alimentar_salaberga", "if0_34490143", "ZelVBWHTerGTZY");
     }
 
+    public function tabela($resultado)
+    {
+        $i = 0;
+        foreach ($resultado as $r) {
+            unset($r[0]);
+            unset($r[1]);
+            unset($r[2]);
+            unset($r[3]);
+            $r['total'] = $r['total_bom'] + $r['total_ruim'];
+            $res[] = $r;
+            if ($i == 0) {
+                $itens_cabecalho = array_keys($r);
+            }
+            $i++;
+        }
+        echo '<thead><tr>';
+        foreach ($itens_cabecalho as $i) {
+                echo "<th>$i</th>";
+        }
+        echo '</tr></thead>';
+        echo '<tbody>';
+        foreach ($res as $v) {
+            echo '<tr>';
+            foreach ($v as $value) {
+                echo "<td>$value</td>";
+            }
+            echo '</tr>';
+        }
+        echo '</tbody>';
+    }
+
     public function clausula_intervalo()
     {
         switch ($this->intervalo) {
@@ -100,7 +131,7 @@ class Relatorio
             echo $e;
         }
     }
-    
+
     public function exibir_resultado_completo($resultado)
     {
         try {
@@ -123,7 +154,7 @@ class Relatorio
         }
     }
 
-    public function exibir_resultado_votacao($resultado)
+    public function exibir_resultado_avaliacao($resultado)
     {
         try {
             foreach ($resultado as $value) {
@@ -133,7 +164,6 @@ class Relatorio
         } catch (Exception $e) {
             echo $e;
         }
-
     }
 
     public function ocorrencia()
@@ -287,7 +317,7 @@ class Relatorio
                 $consulta_feita->bindValue(":tipo_refeicao_$index", $valor, PDO::PARAM_STR);
             }
             $consulta_feita->execute();
-            $this->exibir_resultado_votacao($consulta_feita);
+            $this->tabela($consulta_feita);
         } catch (PDOException $e) {
             echo '<pre>' . $e;
         }
