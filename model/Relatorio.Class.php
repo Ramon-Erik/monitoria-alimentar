@@ -10,11 +10,13 @@ class Relatorio
         // $pdo = new pdo("mysql:host=sql311.infinityfree.com; dbname=if0_34490143_monitoria_alimentar_salaberga", "if0_34490143", "ZelVBWHTerGTZY");
     }
 
-    public function tabela($resultado)
+    public function tabela($resultado, $tipo_tabela)
     {
         $i = 0;
         foreach ($resultado as $r) {
-            $r['total'] = $r['total_bom'] + $r['total_ruim'];
+            if ($tipo_tabela === 'avaliacao') {
+                $r['total'] = $r['total_bom'] + $r['total_ruim'];
+            }
             foreach ($r as $key => $va) {
                 if (!is_string($key)) {
                     unset($r[$key]);
@@ -26,14 +28,14 @@ class Relatorio
             }
             $i++;
         }
-        $_SESSION['nths'] = count($itens_cabecalho); 
+        $_SESSION['nths'] = count($itens_cabecalho);
         echo '<thead><tr>';
         foreach ($itens_cabecalho as $i) {
-                if ($i == 'data') {
-                    echo "<th class=\"data\">$i</th>";
-                } else {
-                    echo "<th>$i</th>";
-                }
+            if ($i == 'data') {
+                echo "<th class=\"data\">$i</th>";
+            } else {
+                echo "<th>$i</th>";
+            }
         }
         echo '</tr></thead>';
         echo '<tbody>';
@@ -194,7 +196,7 @@ class Relatorio
                 $consulta_feita->bindValue(":tipo_refeicao_$index", $valor, PDO::PARAM_STR);
             }
             $consulta_feita->execute();
-            $this->exibir_resultado_ocorrencia($consulta_feita);
+            $this->tabela($consulta_feita, 'ocorrencia');
         } catch (PDOException $e) {
             echo '<pre>' . $e;
         }
@@ -328,7 +330,7 @@ class Relatorio
                 $consulta_feita->bindValue(":tipo_refeicao_$index", $valor, PDO::PARAM_STR);
             }
             $consulta_feita->execute();
-            $this->tabela($consulta_feita);
+            $this->tabela($consulta_feita, 'avaliacao');
         } catch (PDOException $e) {
             echo '<pre>' . $e;
         }
