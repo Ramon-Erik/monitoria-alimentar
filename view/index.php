@@ -88,10 +88,15 @@
                 <a href="login.php" class="btn mandar">Login</a>
             </div>
         </form>
+        <div class="container">
+            <div class="display"></div>
+            <div class="controllers"></div>
+        </div>
     </main>
     <footer>
         <p>Site desenvolvido por <a href="https://instagram.com/29erik_" target="_blank" rel="noopener noreferrer">Ramon Erik (Informática 2022-2024)</a></p>
     </footer>
+    <script src="js/vrecorder.js"></script>
     <script src="js/script.js"></script>
 </body>
 

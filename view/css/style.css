@@ -27,6 +27,7 @@ main {
     margin: 15px auto 75px auto;
     max-width: 550px;
     padding: 10px;
+    /* padding-bottom: 60px; */
     border-top: 10px solid #903234;
     border-radius: 10px;
     background-color: white;
@@ -151,7 +152,7 @@ form .area-btn {
     position: absolute;
     width: calc(100% + 10px);
 
-    bottom: -40px;
+    bottom: -50px;
     left: -5px;
 
     transform: translateY(100%);
