@@ -219,7 +219,7 @@ class Relatorio
                 $consulta_feita->bindValue(":tipo_refeicao_$index", $valor, PDO::PARAM_STR);
             }
             $consulta_feita->execute();
-            $this->exibir_resultado_lanche($consulta_feita);
+            $this->tabela($consulta_feita, 'cardapio_l');
         } catch (Exception $e) {
             echo $e;
         }
@@ -242,7 +242,7 @@ class Relatorio
                 $consulta_feita->bindValue(":tipo_refeicao_$index", $valor, PDO::PARAM_STR);
             }
             $consulta_feita->execute();
-            $this->exibir_resultado_almoco($consulta_feita);
+            $this->tabela($consulta_feita, 'cardapio_al');
         } catch (Exception $e) {
             echo $e;
         }
@@ -289,7 +289,7 @@ class Relatorio
                 $consulta_feita->bindValue(":tipo_refeicao_$index", $valor, PDO::PARAM_STR);
             }
             $consulta_feita->execute();
-            $this->exibir_resultado_completo($consulta_feita);
+            $this->tabela($consulta_feita, 'cardapio_co');
         } catch (Exception $e) {
             echo $e;
         }
