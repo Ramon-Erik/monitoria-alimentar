@@ -4,6 +4,7 @@ Class Cardapio {
     public $pdo;
     public function __construct() {
         $this->pdo = new PDO("mysql:host=localhost; dbname=monitoria_alimentar_salaberga","root","");
+        // $pdo = new pdo("mysql:host=sql311.infinityfree.com; dbname=if0_34490143_monitoria_alimentar_salaberga", "if0_34490143", "ZelVBWHTerGTZY");
     }
 
     public function get_cardapio($data, $horario) {
