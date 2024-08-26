@@ -38,7 +38,7 @@ Class Cardapio {
 
             $ultimo_id = $this->pdo->lastInsertId();
 
-            $cardapio = $this->pdo->prepare("INSERT INTO cardapio VALUES(null, :data, :horario, :ultimo_id)");
+            $cardapio = $this->pdo->prepare("INSERT INTO cardapio(id, data, tipo_refeicao, id_cardapio_servido) VALUES(null, :data, :horario, :ultimo_id)");
             $cardapio->bindValue(":data", $data); 
             $cardapio->bindValue(":horario", $horario); 
             $cardapio->bindValue(":ultimo_id", $ultimo_id); 
@@ -100,14 +100,14 @@ Class Cardapio {
     public function registrar_lanche($data, $horario, $ref_solida, $ref_liquida) {
         if (!$this->get_cardapio($data, $horario)) {
             try {
-                $cardapio_servido = $this->pdo->prepare("INSERT INTO cardapio_servido (ref_solida, ref_liquida) VALUES (:ref_solida, :ref_liquida)");
+                $cardapio_servido = $this->pdo->prepare("INSERT INTO cardapio_servido(ref_solida, ref_liquida) VALUES (:ref_solida, :ref_liquida)");
                 $cardapio_servido->bindValue(":ref_solida", $ref_solida); 
                 $cardapio_servido->bindValue(":ref_liquida", $ref_liquida); 
                 $cardapio_servido->execute();
 
                 $ultimo_id = $this->pdo->lastInsertId();
 
-                $cardapio = $this->pdo->prepare("INSERT INTO cardapio VALUES(null, :data, :horario, :ultimo_id)");
+                $cardapio = $this->pdo->prepare("INSERT INTO cardapio(id, data, tipo_refeicao, id_cardapio_servido) VALUES(null, :data, :horario, :ultimo_id)");
                 $cardapio->bindValue(":data", $data); 
                 $cardapio->bindValue(":horario", $horario); 
                 $cardapio->bindValue(":ultimo_id", $ultimo_id); 
@@ -144,7 +144,7 @@ Class Cardapio {
 
                 $ultimo_id = $this->pdo->lastInsertId();
 
-                $cardapio = $this->pdo->prepare("INSERT INTO cardapio VALUES(null, :data, :tipo_refeicao, :ultimo_id)");
+                $cardapio = $this->pdo->prepare("INSERT INTO cardapio(id, data, tipo_refeicao, id_cardapio_servido) VALUES(null, :data, :tipo_refeicao, :ultimo_id)");
                 $cardapio->bindValue(":data", $data); 
                 $cardapio->bindValue(":tipo_refeicao", $tipo_refeicao); 
                 $cardapio->bindValue(":ultimo_id", $ultimo_id); 

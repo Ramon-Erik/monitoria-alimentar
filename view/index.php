@@ -12,7 +12,7 @@
 
 <body>
     <?php
-    session_start(); 
+    session_start();
     if (isset($_SESSION['maquina']) and $_SESSION['maquina'] === 's') {
         echo '<script>alert("Sucesso! ' . $_SESSION['maquina'] . ' ")</script>';
     }

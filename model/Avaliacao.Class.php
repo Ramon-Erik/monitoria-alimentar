@@ -64,7 +64,7 @@ class Avaliacao {
 
     public function registrar_voto($av, $serie, $refeicao, $id_cardapio) {
         try {
-            $consulta = "INSERT INTO votacao VALUES (null, curdate(), :av, :serie, :refeicao, :id_cardapio, curtime())";
+            $consulta = "INSERT INTO votacao(id, data, opcao_marcada, serie, tipo_refeicao, id_cardapio, hora) VALUES (null, curdate(), :av, :serie, :refeicao, :id_cardapio, curtime())";
             $consulta_feita = $this->pdo->prepare($consulta);
             $consulta_feita->bindValue(":av", $av);
             $consulta_feita->bindValue(":serie", $serie);
